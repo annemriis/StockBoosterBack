@@ -10,11 +10,15 @@ sourceCompatibility = '16'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
+
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter:2.5.4'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.github.crazzyghost:alphavantage-java:x.y.z'
+
 }
 
 test {
