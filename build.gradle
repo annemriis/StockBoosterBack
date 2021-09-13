@@ -16,8 +16,9 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter:2.5.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'com.github.crazzyghost:alphavantage-java:x.y.z'
+    implementation 'com.github.crazzyghost:alphavantage-java:1.5.0'
 
 }
 
