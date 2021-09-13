@@ -3,12 +3,13 @@ package com.example.back.ito03022021backend.api;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
 import com.crazzyghost.alphavantage.Config;
+import org.springframework.stereotype.Service;
 
-public class APIImport {
+@Service
+public final class ApiImport {
 
     private AlphaVantage alphaVantage;
-
-
+    private static ApiImport INSTANCE;
 
     /**
     This function needs to be called,
@@ -32,21 +33,31 @@ public class APIImport {
     /**
      * Set apis calling to daily
      */
-    public void setAPIToDaily() {
+    public void setApiToDaily() {
         this.alphaVantage.timeSeries().daily();
     }
 
     /**
      * Set apis calling to weekly
      */
-    public void setAPIToWeekly() {
+    public void setApiToWeekly() {
         this.alphaVantage.timeSeries().weekly();
     }
 
     /**
      * Set apis calling to intraday
      */
-    public void setAPIToIntraday() {
+    public void setApiToIntraday() {
         this.alphaVantage.timeSeries().intraday();
+    }
+
+    public static ApiImport getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new ApiImport();
+            INSTANCE.initialize();
+            INSTANCE.setApiToIntraday();
+        }
+
+        return INSTANCE;
     }
 }
