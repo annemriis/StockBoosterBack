@@ -2,6 +2,8 @@ package com.example.back.ito03022021backend.contorllers;
 
 
 import com.crazzyghost.alphavantage.AlphaVantageException;
+import com.crazzyghost.alphavantage.parameters.Interval;
+import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 import com.example.back.ito03022021backend.api.ApiImport;
 import netscape.javascript.JSObject;
@@ -25,15 +27,15 @@ public class ApiController {
 
     //Olegi naide, kuidas controller paks tootama
     @GetMapping("{Symbol}")
-    public JSObject getStock(@PathVariable String Symbol) {
-            return this.api.getAlphaVantage().indicator().sma().forSymbol(Symbol)
+    public void getStock(@PathVariable String symbol) {
+        this.api.getAlphaVantage()
+                .timeSeries()
+                .intraday()
+                .forSymbol(symbol)
+                .interval(Interval.DAILY)
+                .outputSize(OutputSize.FULL)
+                .fetch();
     }
 
-    public void handleSuccess(TimeSeriesResponse response) {
-        plotGraph(reponse.getStockUnits());
-    }
-    public void handleFailure(AlphaVantageException error) {
-        /* uh-oh! */
-    }
 
 }
