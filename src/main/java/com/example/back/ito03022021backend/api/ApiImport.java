@@ -3,6 +3,7 @@ package com.example.back.ito03022021backend.api;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
 import com.crazzyghost.alphavantage.Config;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service

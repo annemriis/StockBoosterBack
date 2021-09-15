@@ -26,7 +26,7 @@ public class ApiController {
     // https://gitlab.cs.ttu.ee/petarv/iti0302-2021-heroes-back/-/tree/feature/api-w-db/src/main
 
     //Olegi naide, kuidas controller paks tootama
-    @GetMapping("{Symbol}")
+    @GetMapping("{symbol}")
     public void getStock(@PathVariable String symbol) {
         this.api.getAlphaVantage()
                 .timeSeries()
