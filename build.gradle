@@ -16,9 +16,11 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter:2.5.4'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.4'
     implementation 'com.github.crazzyghost:alphavantage-java:1.5.0'
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
 }
 
