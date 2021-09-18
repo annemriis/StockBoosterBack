@@ -13,7 +13,7 @@ public class configuration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.example.back.ito03022021"))
                 .paths(PathSelectors.any())
                 .build();
 
