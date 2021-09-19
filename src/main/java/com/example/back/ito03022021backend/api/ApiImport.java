@@ -24,6 +24,7 @@ public final class ApiImport {
                 .build();
         this.alphaVantage = AlphaVantage.api();
         alphaVantage.init(cfg);
+        System.out.println("Alphavantage on");
     }
 
 

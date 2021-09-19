@@ -2,6 +2,7 @@ package com.example.back.ito03022021backend.contorllers;
 
 
 import com.crazzyghost.alphavantage.AlphaVantageException;
+import com.crazzyghost.alphavantage.parameters.DataType;
 import com.crazzyghost.alphavantage.parameters.Interval;
 import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import java.util.List;
 
 @RequestMapping(path = "api/v1/stocks")
 @RestController
@@ -25,22 +27,19 @@ public class ApiController {
         this.api.setApiToIntraday();
     }
 
-    @GetMapping
-    public String getHello() {
-        return "hello";
-    }
 
     // https://gitlab.cs.ttu.ee/petarv/iti0302-2021-heroes-back/-/tree/feature/api-w-db/src/main
 
     //Olegi naide, kuidas controller peaks tootama
-    @GetMapping({"IBM"})
+    @GetMapping({"/{symbol}"})
     public List<StockUnit> getStock(@PathVariable String symbol) {
         return this.api.getAlphaVantage()
                 .timeSeries()
                 .intraday()
-                .forSymbol("IBM")
+                .forSymbol(symbol)
                 .interval(Interval.DAILY)
                 .outputSize(OutputSize.FULL)
+                .dataType(DataType.JSON)
                 .fetchSync()
                 .getStockUnits();
     }
