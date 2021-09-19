@@ -15,7 +15,7 @@ import java.util.List;
 
 import java.util.List;
 
-@RequestMapping(path = "api/v1/stocks")
+@RequestMapping(path = "api/stocks")
 @RestController
 public class ApiController {
 
@@ -31,13 +31,24 @@ public class ApiController {
     // https://gitlab.cs.ttu.ee/petarv/iti0302-2021-heroes-back/-/tree/feature/api-w-db/src/main
 
     //Olegi naide, kuidas controller peaks tootama
-    @GetMapping({"/{symbol}"})
-    public List<StockUnit> getStock(@PathVariable String symbol) {
+    @GetMapping({"/daily/{symbol}"})
+    public List<StockUnit> getStockDaily(@PathVariable String symbol) {
+        return this.api.getAlphaVantage()
+                .timeSeries()
+                .daily()
+                .forSymbol(symbol)
+                .outputSize(OutputSize.FULL)
+                .dataType(DataType.JSON)
+                .fetchSync()
+                .getStockUnits();
+    }
+
+    @GetMapping({"/intraday/{symbol}"})
+    public List<StockUnit> getStockIntraday(@PathVariable String symbol) {
         return this.api.getAlphaVantage()
                 .timeSeries()
                 .intraday()
                 .forSymbol(symbol)
-                .interval(Interval.DAILY)
                 .outputSize(OutputSize.FULL)
                 .dataType(DataType.JSON)
                 .fetchSync()
