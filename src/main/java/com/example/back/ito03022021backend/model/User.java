@@ -1,20 +1,24 @@
 package com.example.back.ito03022021backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
+@Entity(name = "User")
+@Table(name = "_users")
 public class User {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "name")
+    private String name;
+
 
     public User() {
     }
@@ -51,7 +55,8 @@ public class User {
         this.name = name;
     }
 
-    public User(String name, String email, String password ) {
+    public User(Long id, String name, String email, String password ) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
