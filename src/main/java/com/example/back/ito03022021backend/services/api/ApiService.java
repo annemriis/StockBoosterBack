@@ -1,4 +1,4 @@
-package com.example.back.ito03022021backend.api;
+package com.example.back.ito03022021backend.services.api;
 
 
 import com.crazzyghost.alphavantage.AlphaVantage;
@@ -6,7 +6,7 @@ import com.crazzyghost.alphavantage.Config;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class ApiImport {
+public final class ApiService {
 
     private final AlphaVantage alphaVantage;
 
@@ -17,7 +17,7 @@ public final class ApiImport {
      The time on api needs to be set by calling specific methods.
      */
     // https://github.com/crazzyghost/alphavantage-java
-    public ApiImport() {
+    public ApiService() {
         Config cfg = Config.builder()
                 .key("QL2P2SF7O5SU8LD3")
                 .timeOut(10)
