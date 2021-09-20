@@ -8,6 +8,7 @@ group = 'com.example.back'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '16'
 
+
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
@@ -24,8 +25,10 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-jpa:2.5.4')
     implementation('org.springframework.boot:spring-boot-starter-web:2.5.4')
     implementation('org.postgresql:postgresql:42.2.23.jre7')
-
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.5.4')
+
+    runtimeOnly 'com.h2database:h2:1.4.200'
+
 
 }
 
