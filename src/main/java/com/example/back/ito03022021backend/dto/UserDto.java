@@ -4,7 +4,6 @@ public class UserDto {
     private long id;
     private String name;
     private String email;
-    private String password;
 
     public UserDto() {
     }
@@ -13,7 +12,6 @@ public class UserDto {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
     }
 
     public void setId(long id) {
@@ -28,9 +26,7 @@ public class UserDto {
         this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
 
     public long getId() {
         return id;
@@ -42,9 +38,5 @@ public class UserDto {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }
