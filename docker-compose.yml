@@ -8,18 +8,15 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-
-
-
 
   db:
     image: postgres:latest
     container_name: "stock-postgres"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=root
       - POSTGRES_DB=User
     ports:
       - "5632:5432"
@@ -33,7 +30,7 @@ services:
       - "5633:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=root
       - POSTGRES_DB=User
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
