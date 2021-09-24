@@ -1,18 +1,17 @@
 package com.example.back.ito03022021backend.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "User")
-@Schema(name = "schema")
 @Table(name= "users")
+@TableGenerator(name = "users")
 public class User {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "email")
@@ -24,9 +23,10 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "stocks")
     @ElementCollection
-    private ArrayList<String> stocks;
+    @CollectionTable(name = "_stocks", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "stocks")
+    private List<String> stocks;
 
 
     public User() {

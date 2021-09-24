@@ -1,4 +1,4 @@
-package com.example.back.ito03022021backend.repository;
+package com.example.back.ito03022021backend.model;
 
 
 import com.example.back.ito03022021backend.model.User;
