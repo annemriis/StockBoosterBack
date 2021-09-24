@@ -2,7 +2,7 @@ version: '3.3'
 services:
 
   API:
-    image: ito0302-2021-back-end
+    image: bootdocker:staging
     ports:
       - "8080:8080"
     depends_on:
