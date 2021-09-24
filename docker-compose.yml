@@ -2,22 +2,24 @@ version: '3.3'
 services:
 
   API:
-    image: 'gs-spring-boot-docker-0.1.0.jar'
+    image: ito0302-2021-back-end
     ports:
       - "8080:8080"
+    depends_on:
+      - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-
   db:
     image: postgres:latest
     container_name: "stock-postgres"
+    command: --init-file src/main/resources/db/postgresql/v1_create_schema.sql
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=User
+      - POSTGRES_DB=postgres
     ports:
       - "5632:5432"
     volumes:
