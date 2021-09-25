@@ -1,12 +1,43 @@
+buildscript {
+    ext {
+        springBootVersion = '2.5.4'
+    }
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+
+
+
+    dependencies {
+
+        classpath('org.springframework.boot:spring-boot-starter:2.5.4')
+        classpath('org.springframework.boot:spring-boot-starter-web:2.5.4')
+        classpath('org.springframework.boot:spring-boot-starter-test:2.5.4')
+        classpath('com.github.crazzyghost:alphavantage-java:1.5.0')
+        classpath('io.springfox:springfox-swagger2:3.0.0')
+        classpath('io.springfox:springfox-swagger-ui:3.0.0')
+        classpath('org.springframework.boot:spring-boot-starter-data-jpa:2.5.4')
+        classpath('org.springframework.boot:spring-boot-starter-web:2.5.4')
+        classpath('org.postgresql:postgresql:42.2.23.jre7')
+        classpath('org.springframework.boot:spring-boot-starter-test:2.5.4')
+    }
+
+}
+
+
 plugins {
     id 'org.springframework.boot' version '2.5.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+
 }
 
+
 group = 'com.example.back'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '16'
+version = '0.0.1'
+sourceCompatibility = '11'
+
 
 repositories {
     mavenCentral()
@@ -15,6 +46,7 @@ repositories {
 }
 
 dependencies {
+
     implementation 'org.springframework.boot:spring-boot-starter:2.5.4'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.4'
@@ -25,8 +57,13 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web:2.5.4')
     implementation('org.postgresql:postgresql:42.2.23.jre7')
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.5.4')
+    runtimeOnly('com.h2database:h2')
 
+
+    runtimeOnly 'com.h2database:h2:1.4.200'
 }
+
+
 
 test {
     useJUnitPlatform()
