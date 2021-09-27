@@ -29,8 +29,8 @@ public class ApiController {
     // https://gitlab.cs.ttu.ee/petarv/iti0302-2021-heroes-back/-/tree/feature/api-w-db/src/main
 
     @GetMapping(path = "/stock/{symbol}")
-    public List<StockUnit> getStock(@PathVariable String symbol) {
-        return this.stockService.getStockDailyWithTimePeriodOneMonth(symbol);
+    public StockDto getStock(@PathVariable String symbol) {
+        return this.stockService.getStockDtoMonthDaily(symbol);
     }
 
     @GetMapping(path = "/stockI/{symbol}")
