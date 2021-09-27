@@ -6,6 +6,7 @@ public class StockDto {
 
     private String symbol;
     private List<List<String>> stockInfo;
+    // Siia peaks lisama veel parameetreid, aga milliseid?
 
     public StockDto(String symbol, List<List<String>> stockInfo) {
         this.symbol = symbol;
