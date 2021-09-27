@@ -26,7 +26,7 @@ public class ApiController {
 
     @GetMapping(path = "/stock/{symbol}")
     public List<StockUnit> getStock(@PathVariable String symbol) {
-        return this.stockService.getStockDaily(symbol);
+        return this.stockService.getStockDailyWithTimePeriodOneMonth(symbol);
     }
 
 
