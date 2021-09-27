@@ -34,8 +34,7 @@ public class StockSendingService {
      * @return StockDto instance
      */
     public StockDto getStockDaily(String symbol) {
-        // .getStockDaily() vaja muuta OneMonth meetodiks.
-        return convertToStockDto(symbol, stockService.getStockDaily(symbol));
+        return convertToStockDto(symbol, stockService.getStockDailyWithTimePeriodOneMonth(symbol));
     }
 
     /**
