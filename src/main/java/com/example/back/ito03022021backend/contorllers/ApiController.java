@@ -33,6 +33,10 @@ public class ApiController {
         return this.stockSendingService.getStockDaily(symbol);
     }
 
+    @GetMapping(path = "/stockI/{symbol}")
+    public List<StockUnit> getStockIntraday(@PathVariable String symbol) {
+        return this.stockService.getStockIntraday(symbol);
+    }
     /**
      * @GetMapping(path = "/stock/{symbol}")
      * public List<StockUnit> getStock(@PathVariable String symbol) {

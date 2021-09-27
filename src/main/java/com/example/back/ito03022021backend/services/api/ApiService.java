@@ -16,7 +16,7 @@ public final class ApiService {
      so that the external API will be connected to this object
      The time on api needs to be set by calling specific methods.
      */
-    // https://github.com/crazzyghost/alphavantage-java
+        // https://github.com/crazzyghost/alphavantage-java
     public ApiService() {
         Config cfg = Config.builder()
                 .key("QL2P2SF7O5SU8LD3")
