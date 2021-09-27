@@ -4,6 +4,7 @@ import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.example.back.ito03022021backend.dto.StockDto;
 import com.example.back.ito03022021backend.dto.StockDtoBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ public class StockSendingService {
      * @param stockService StockService instance
      */
     @Autowired
-    public StockSendingService(StockService stockService, StockDtoBuilder stockDtoBuilder) {
+    public StockSendingService(@Lazy StockService stockService,@Lazy StockDtoBuilder stockDtoBuilder) {
         this.stockService = stockService;
         this.stockDtoBuilder = stockDtoBuilder;
     }

@@ -4,7 +4,9 @@ import com.crazzyghost.alphavantage.parameters.DataType;
 import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.response.QuoteResponse;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
+import com.example.back.ito03022021backend.dto.StockDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 
@@ -14,11 +16,15 @@ import java.util.List;
 @Service
 public class StockService {
     private final ApiService api;
+    private final StockSendingService stockSendingService;
 
     @Autowired
-    public StockService(ApiService apiService) {
+    public StockService(ApiService apiService,@Lazy StockSendingService stockSendingService) {
         this.api = apiService;
+        this.stockSendingService = stockSendingService;
     }
+
+
 
     public QuoteResponse getQuote(String symbol) {
         return this.api
@@ -39,6 +45,26 @@ public class StockService {
                 .dataType(DataType.JSON)
                 .fetchSync()
                 .getStockUnits();
+    }
+
+    public StockDto getStockDtoMonthDaily(String symbol) {
+        List<StockUnit> stockUnits = this.api.getAlphaVantage()
+                .timeSeries()
+                .daily()
+                .forSymbol(symbol)
+                .outputSize(OutputSize.COMPACT)
+                .dataType(DataType.JSON)
+                .fetchSync()
+                .getStockUnits();
+        String[] stockUnitDate = stockUnits.get(0).getDate().split("-");
+        int day = Integer.parseInt(stockUnitDate[2]);
+        int month = Integer.parseInt(stockUnitDate[1]);
+        int year = Integer.parseInt(stockUnitDate[0]);
+        return this.stockSendingService
+                .convertToStockDto(
+                        symbol,
+                        filterStockByDateOneMonth(stockUnits, day, month, year)
+                );
     }
 
     /**
