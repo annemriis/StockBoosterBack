@@ -13,16 +13,34 @@ public class StockSendingService {
 
     private final StockService stockService;
 
+    /**
+     * Class for sending converted stock data.
+     *
+     * @param stockService StockService instance
+     */
     @Autowired
     public StockSendingService(StockService stockService) {
         this.stockService = stockService;
     }
 
+    /**
+     * Return StockDto instance with latest data points (approximately 20 data points).
+     *
+     * @param symbol of the stock (String)
+     * @return StockDto instance
+     */
     public StockDto getStockDaily(String symbol) {
         // .getStockDaily() vaja muuta OneMonth meetodiks.
         return convertStock(symbol, stockService.getStockDaily(symbol));
     }
 
+    /**
+     * Convert stock units into StockDto.
+     *
+     * @param symbol of the stock (String)
+     * @param stockUnits list of stock units (List<StockUnit>)
+     * @return StockDto instance
+     */
     public StockDto convertStock(String symbol, List<StockUnit> stockUnits) {
         List<List<String>> stockInfo = new LinkedList<>();
         for (int i = 0; i < stockUnits.size(); i++) {
