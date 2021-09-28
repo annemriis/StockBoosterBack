@@ -11,7 +11,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -33,6 +37,21 @@ public class ApiControllerTest {
         StockDto stockDto = objectMapper.readValue(contentAsString, new TypeReference<>() {});
         assertEquals(StockDto.class, stockDto.getClass());
         assertEquals("GOOG", stockDto.getSymbol());
+
+        // Current date.
+        Date date = new Date();
+        String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        int day = Integer.parseInt(modifiedDate.substring(8));
+        int month = Integer.parseInt(modifiedDate.substring(5, 7));
+        int year = Integer.parseInt(modifiedDate.substring(0, 4));
+
+        // Test day, month and year.
+        assertTrue(day == Integer.parseInt(stockDto.getLastDate().substring(8))  // Day.
+                || day - 1 == Integer.parseInt(stockDto.getLastDate().substring(8))
+                || day - 2 == Integer.parseInt(stockDto.getLastDate().substring(8)));
+        assertTrue(month == Integer.parseInt(stockDto.getLastDate().substring(5, 7))  // Month.
+                || month - 1 == Integer.parseInt(stockDto.getLastDate().substring(5, 7)));
+        assertEquals(year, Integer.parseInt(stockDto.getLastDate().substring(0, 4)));  // Year.
     }
 
 
