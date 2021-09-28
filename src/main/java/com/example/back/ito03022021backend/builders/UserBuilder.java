@@ -1,6 +1,7 @@
 package com.example.back.ito03022021backend.builders;
 
 import com.example.back.ito03022021backend.model.User;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

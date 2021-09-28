@@ -21,6 +21,8 @@ buildscript {
         classpath('org.springframework.boot:spring-boot-starter-web:2.5.4')
         classpath('org.postgresql:postgresql:42.2.23.jre7')
         classpath('org.springframework.boot:spring-boot-starter-test:2.5.4')
+        classpath('com.google.code.gson:gson:2.8.8')
+
     }
 
 }
@@ -57,7 +59,9 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web:2.5.4')
     implementation('org.postgresql:postgresql:42.2.23.jre7')
     testImplementation('org.springframework.boot:spring-boot-starter-test:2.5.4')
-    runtimeOnly('com.h2database:h2')
+    runtimeOnly('com.h2database:h2:1.4.200')
+    implementation 'com.google.code.gson:gson:2.8.8'
+
 
 
     runtimeOnly 'com.h2database:h2:1.4.200'
