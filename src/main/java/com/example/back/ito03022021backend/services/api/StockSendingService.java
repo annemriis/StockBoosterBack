@@ -14,7 +14,6 @@ import java.util.List;
 public class StockSendingService {
 
     private final StockService stockService;
-    private final StockDtoBuilder stockDtoBuilder;
 
     /**
      * Class for sending converted stock data.
@@ -22,9 +21,8 @@ public class StockSendingService {
      * @param stockService StockService instance
      */
     @Autowired
-    public StockSendingService(@Lazy StockService stockService,@Lazy StockDtoBuilder stockDtoBuilder) {
+    public StockSendingService(@Lazy StockService stockService) {
         this.stockService = stockService;
-        this.stockDtoBuilder = stockDtoBuilder;
     }
 
     /**
@@ -33,9 +31,8 @@ public class StockSendingService {
      * @param symbol of the stock (String)
      * @return StockDto instance
      */
-    public StockDto getStockDaily(String symbol) {
-        // .getStockDaily() vaja muuta OneMonth meetodiks.
-        return convertToStockDto(symbol, stockService.getStockDaily(symbol));
+    public StockDto getStockDaily(String symbol) {  // Test.
+        return convertToStockDto(symbol, stockService.getStockDailyWithTimePeriodOneMonth(symbol));
     }
 
     /**
@@ -45,7 +42,7 @@ public class StockSendingService {
      * @param stockUnits list of stock units (List<StockUnit>)
      * @return StockDto instance
      */
-    public StockDto convertToStockDto(String symbol, List<StockUnit> stockUnits) {
+    public StockDto convertToStockDto(String symbol, List<StockUnit> stockUnits) {  // Test.
         List<String> stockDateInfo = new LinkedList<>();
         List<Double> stockCloseInfo = new LinkedList<>();
         StockUnit stockUnit = stockUnits.get(0);
@@ -59,7 +56,7 @@ public class StockSendingService {
             stockCloseInfo.add(stockUnit.getClose());
             stockDateInfo.add(stockUnit.getDate());
         }
-        return this.stockDtoBuilder
+        return new StockDtoBuilder()
                 .withClose(close)
                 .withHigh(high)
                 .withOpen(open)

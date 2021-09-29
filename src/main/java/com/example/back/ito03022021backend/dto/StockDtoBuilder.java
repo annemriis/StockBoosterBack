@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StockDtoBuilder {
+public class StockDtoBuilder {  // Test.
 
     private String symbol;
     private Double open;

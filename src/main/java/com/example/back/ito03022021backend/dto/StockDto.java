@@ -3,17 +3,16 @@ package com.example.back.ito03022021backend.dto;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StockDto {
+public class StockDto {  // Test.
 
     private String symbol;
     private Double open;
     private Double close;
-    private Double high ;
+    private Double high;
     private Long volume;
     private String lastDate;
     private List<String> stockDateInfo;
     private List<Double> stockCloseInfo;
-    // Siia peaks lisama veel parameetreid, aga milliseid?
 
     public StockDto() {
     }
