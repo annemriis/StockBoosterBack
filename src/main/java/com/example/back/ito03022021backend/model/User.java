@@ -48,13 +48,6 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -64,11 +57,5 @@ public class User {
         this.name = name;
     }
 
-    public User(String name, String email, String password, ArrayList<String> stocks) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.stocks = stocks;
-    }
 
 }
