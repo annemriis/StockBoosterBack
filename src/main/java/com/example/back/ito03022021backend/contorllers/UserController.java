@@ -25,14 +25,11 @@ public class UserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<User> createUser(@RequestBody User newUser) {
-
         User user = new UserBuilder()
-                .withId(newUser.getId())
                 .withName(newUser.getName())
                 .withEmail(newUser.getEmail())
                 .withPassword(newUser.getPassword())
                 .build();
-
         User _user = repository.save(user);
         return new ResponseEntity<>(_user, HttpStatus.CREATED);
     }

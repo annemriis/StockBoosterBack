@@ -64,8 +64,7 @@ public class User {
         this.name = name;
     }
 
-    public User(Long id, String name, String email, String password, ArrayList<String> stocks) {
-        this.id = id;
+    public User(String name, String email, String password, ArrayList<String> stocks) {
         this.name = name;
         this.email = email;
         this.password = password;

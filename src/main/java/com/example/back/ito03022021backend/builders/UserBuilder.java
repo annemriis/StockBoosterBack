@@ -11,7 +11,6 @@ import javax.persistence.Id;
 public class UserBuilder {
 
 
-    private Long id;
     private String email;
     private String password;
     private String name;
@@ -23,14 +22,10 @@ public class UserBuilder {
     }
 
     public UserBuilder withEmail(String email) {
-        this.name = email;
+        this.email = email;
         return this;
     }
 
-    public UserBuilder withId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public UserBuilder withPassword(String password) {
         this.password = password;
@@ -40,7 +35,6 @@ public class UserBuilder {
     // This will cause bugs prolly, need to implement req somewhere
     public User build() {
         User user = new User();
-        user.setId(this.id);
         user.setEmail(this.email);
         user.setName(this.name);
         user.setPassword(this.password);

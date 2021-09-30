@@ -4,22 +4,26 @@ package com.example.back.ito03022021backend.databaseTests;
 import com.example.back.ito03022021backend.builders.UserBuilder;
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.model.UsersRepository;
-import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @AutoConfigureMockMvc
+@SpringBootTest
 public class DatabaseTests {
 
     private final UsersRepository usersRepository;
@@ -37,33 +41,38 @@ public class DatabaseTests {
 
 
     @Test
-    public void testAddingUser() {
+    void testAddingUser() {
 
         // Create users
         User user1 = new UserBuilder()
-                .withId(1L)
                 .withName("P")
-                .withEmail("p")
+                .withEmail("pppp")
                 .withPassword("a")
                 .build();
 
         User user2 = new UserBuilder()
-                .withId(2L)
                 .withName("2")
                 .withEmail("2")
                 .withPassword("2")
                 .build();
 
-        usersRepository.save(user1);
-        usersRepository.save(user2);
 
-        System.out.println(usersRepository.getById(1L));
-        User use1 = usersRepository.getById(1L);
-        User use2 = usersRepository.findUsersByName("2");
+        usersRepository.saveAndFlush(user1);
+        usersRepository.saveAndFlush(user2);
+
+        List<User> use1 = usersRepository.findAll();
+
+        // The list size should be 2 since there are 2 entities saved in database
+        assertEquals(2, use1.size());
 
 
-        System.out.printf("%s, %s%n", use1.getName(), user1.getName());
+        // The first users name is P so the other users name is P, the classes cannot be compared because
+        // getting users from the database creates a new class
+        assertEquals("P", usersRepository.findUsersByName("P").getName());
 
+        assertEquals("P", usersRepository.findUsersByEmail("pppp").getName());
+
+        assertEquals("P", usersRepository.findUsersById(1L).getName());
     }
 
 }
