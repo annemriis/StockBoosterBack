@@ -21,8 +21,8 @@ public class UserController {
         this.repository = usersRepository;
     }
 
-    @PostMapping(path = "/user",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    // Võtsin hetkel path = /user ära, sest POST requestil peaks olema lihtsalt /users ?
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<User> createUser(@RequestBody User newUser) {
         User user = new UserBuilder()
@@ -37,5 +37,10 @@ public class UserController {
     @GetMapping(path = "/user/{name}")
     public User getUserByName(@PathVariable String name) {
         return repository.findUsersByName(name);
+    }
+
+    @GetMapping(path = "/user/{id}")
+    public User getUserById(@PathVariable long id) {
+        return repository.findUsersById(id);
     }
 }

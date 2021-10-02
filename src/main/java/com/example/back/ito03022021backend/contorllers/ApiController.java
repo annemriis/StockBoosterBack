@@ -33,7 +33,7 @@ public class ApiController {
         return this.stockSendingService.getStockDaily(symbol);
     }
 
-    @GetMapping(path = "/stockI/{symbol}")
+    @GetMapping(path = "/stock/{symbol}?time-series=intraday")
     public List<StockUnit> getStockIntraday(@PathVariable String symbol) {
         return this.stockService.getStockIntraday(symbol);
     }
