@@ -9,6 +9,7 @@ import com.example.back.ito03022021backend.services.api.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpHeaders;
 import java.util.List;
 
 @RequestMapping(path = "/api")
@@ -30,7 +31,10 @@ public class ApiController {
 
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {  // Test.
-        return this.stockSendingService.getStockDaily(symbol);
+        org.springframework.http.HttpHeaders responseHeader = new org.springframework.http.HttpHeaders();
+        StockDto dto = this.stockSendingService.getStockDaily(symbol);
+        // Header needs to be attatched to dto so that front-end can get header
+        return dto;
     }
 
     @GetMapping(path = "/stock/{symbol}?time-series=intraday")
