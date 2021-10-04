@@ -29,6 +29,7 @@ public class ApiController {
     }
     // https://gitlab.cs.ttu.ee/petarv/iti0302-2021-heroes-back/-/tree/feature/api-w-db/src/main
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {  // Test.
         org.springframework.http.HttpHeaders responseHeader = new org.springframework.http.HttpHeaders();
