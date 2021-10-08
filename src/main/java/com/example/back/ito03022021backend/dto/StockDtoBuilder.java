@@ -15,6 +15,8 @@ public class StockDtoBuilder {  // Test.
     private String lastDate;
     private List<String> stockDateInfo;
     private List<Double> stockCloseInfo;
+    private Double averagePriceMonthly;
+    private Long averageVolumeMonthly;
 
 
     public StockDtoBuilder withSymbol(String symbol) {
@@ -57,6 +59,16 @@ public class StockDtoBuilder {  // Test.
         return this;
     }
 
+    public StockDtoBuilder withAverageMonthlyPrice(Double averageMonthlyPrice) {
+        this.averagePriceMonthly = averageMonthlyPrice;
+        return this;
+    }
+
+    public StockDtoBuilder withAverageMonthlyVolume(Long averageVolumeMonthly) {
+        this.averageVolumeMonthly = averageVolumeMonthly;
+        return this;
+    }
+
     public StockDto buildStockDto() {
         StockDto dto = new StockDto();
         dto.setClose(this.close);
@@ -67,6 +79,8 @@ public class StockDtoBuilder {  // Test.
         dto.setVolume(this.volume);
         dto.setSymbol(this.symbol);
         dto.setLastDate(this.lastDate);
+        dto.setAveragePriceMonthly(this.averagePriceMonthly);
+        dto.setAverageVolumeMonthly(this.averageVolumeMonthly);
         return dto;
     }
 

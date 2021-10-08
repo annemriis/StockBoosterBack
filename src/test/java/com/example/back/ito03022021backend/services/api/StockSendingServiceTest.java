@@ -15,9 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class StockSendingServiceTest {
 
-    private ApiService apiService = new ApiService();
-    private StockService stockService = new StockService(apiService);
-    private StockSendingService stockSendingService = new StockSendingService(stockService);
+    private final ApiService apiService = new ApiService();
+    private final StockService stockService = new StockService(apiService);
+    private final StockCalculations stockCalculations = new StockCalculations();
+    private final StockSendingService stockSendingService = new StockSendingService(stockService, stockCalculations);
 
     @Test
     void getStockDailyReturnsStockDto() {

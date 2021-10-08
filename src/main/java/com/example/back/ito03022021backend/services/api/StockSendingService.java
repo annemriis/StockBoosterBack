@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class StockSendingService {
 
     private final StockService stockService;
+    private final StockCalculations stockCalculations;
 
     /**
      * Class for sending converted stock data.
@@ -21,8 +23,9 @@ public class StockSendingService {
      * @param stockService StockService instance
      */
     @Autowired
-    public StockSendingService(@Lazy StockService stockService) {
+    public StockSendingService(@Lazy StockService stockService,@Lazy StockCalculations stockCalculations) {
         this.stockService = stockService;
+        this.stockCalculations = stockCalculations;
     }
 
     /**
@@ -45,16 +48,19 @@ public class StockSendingService {
     public StockDto convertToStockDto(String symbol, List<StockUnit> stockUnits) {  // Test.
         List<String> stockDateInfo = new LinkedList<>();
         List<Double> stockCloseInfo = new LinkedList<>();
+        List<Long> stockVolumesMonthly = new ArrayList<>();
         StockUnit stockUnit = stockUnits.get(0);
         Double open = stockUnit.getOpen();
         Double close = stockUnit.getClose();
         Long volume = stockUnit.getVolume();
         Double high = stockUnit.getHigh();
         String date = stockUnit.getDate();
+
         for (int i = 0; i < stockUnits.size(); i++) {
             stockUnit = stockUnits.get(i);
             stockCloseInfo.add(stockUnit.getClose());
             stockDateInfo.add(stockUnit.getDate());
+            stockVolumesMonthly.add(stockUnit.getVolume());
         }
         return new StockDtoBuilder()
                 .withClose(close)
@@ -65,6 +71,8 @@ public class StockSendingService {
                 .withStockDateInfo(stockDateInfo)
                 .withLastDate(date)
                 .withSymbol(symbol)
+                .withAverageMonthlyVolume(this.stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly))
+                .withAverageMonthlyPrice(this.stockCalculations.getMonthlyAveragePrice(stockCloseInfo))
                 .buildStockDto();
 
     }
