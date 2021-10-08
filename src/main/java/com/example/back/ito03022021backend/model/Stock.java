@@ -9,8 +9,8 @@ public class Stock {
     @Id
     private String symbol;  // Siin meetodis on midagi valesti?
 
-    @Column(name = "previous-close")  // Või peaks name = "previous_close" või "previousClose.
-    private Double previousClose;
+    @Column(name = "lastClose")
+    private Double lastClose;
 
     @Column(name = "close")
     private Double close;
@@ -25,12 +25,12 @@ public class Stock {
         return symbol;
     }
 
-    public void setPreviousClose(Double previousClose) {
-        this.previousClose = previousClose;
+    public void setLastClose(Double lastClose) {
+        this.lastClose = lastClose;
     }
 
-    public Double getPreviousClose() {
-        return previousClose;
+    public Double getLastClose() {
+        return lastClose;
     }
 
     public void setClose(Double close) {

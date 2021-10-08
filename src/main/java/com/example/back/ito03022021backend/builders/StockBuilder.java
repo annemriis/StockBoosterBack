@@ -5,7 +5,7 @@ import com.example.back.ito03022021backend.model.Stock;
 public class StockBuilder {
 
     private String symbol;
-    private Double previousClose;
+    private Double lastClose;
     private Double close;
 
     public StockBuilder withSymbol(String symbol) {
@@ -13,8 +13,8 @@ public class StockBuilder {
         return this;
     }
 
-    public StockBuilder withPreviousClose(Double previousClose) {
-        this.previousClose = previousClose;
+    public StockBuilder withLastClose(Double lastClose) {
+        this.lastClose = lastClose;
         return this;
     }
 
@@ -26,7 +26,7 @@ public class StockBuilder {
     public Stock buildStock() {
         Stock stock = new Stock();
         stock.setSymbol(this.symbol);
-        stock.setPreviousClose(this.previousClose);
+        stock.setLastClose(this.lastClose);
         stock.setClose(this.close);
         return stock;
     }
