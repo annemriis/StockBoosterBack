@@ -13,8 +13,26 @@ public class StockDto {  // Test.
     private String lastDate;
     private List<String> stockDateInfo;
     private List<Double> stockCloseInfo;
+    private Double averagePriceMonthly;
+    private Long averageVolumeMonthly;
 
     public StockDto() {
+    }
+
+    public Double getAveragePriceMonthly() {
+        return averagePriceMonthly;
+    }
+
+    public void setAveragePriceMonthly(Double averagePriceMonthly) {
+        this.averagePriceMonthly = averagePriceMonthly;
+    }
+
+    public Long getAverageVolumeMonthly() {
+        return averageVolumeMonthly;
+    }
+
+    public void setAverageVolumeMonthly(Long averageVolumeMonthly) {
+        this.averageVolumeMonthly = averageVolumeMonthly;
     }
 
     public void setSymbol(String symbol) {

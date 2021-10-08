@@ -32,10 +32,8 @@ public class ApiController {
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {  // Test.
-        org.springframework.http.HttpHeaders responseHeader = new org.springframework.http.HttpHeaders();
-        StockDto dto = this.stockSendingService.getStockDaily(symbol);
         // Header needs to be attatched to dto so that front-end can get header
-        return dto;
+        return this.stockSendingService.getStockDaily(symbol);
     }
 
     @GetMapping(path = "/stock/{symbol}?time-series=intraday")
