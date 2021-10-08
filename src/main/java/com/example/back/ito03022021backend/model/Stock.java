@@ -7,7 +7,7 @@ import java.util.List;
 public class Stock {
 
     @Id
-    private String symbol;  // Siin meetodis on midagi valesti?
+    private String symbol;
 
     @Column(name = "lastClose")
     private Double lastClose;
