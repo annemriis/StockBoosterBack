@@ -55,11 +55,14 @@ public class StockService {
                 .dataType(DataType.JSON)
                 .fetchSync()
                 .getStockUnits();
-        String[] stockUnitDate = stockUnits.get(0).getDate().split("-");
-        int day = Integer.parseInt(stockUnitDate[2]);
-        int month = Integer.parseInt(stockUnitDate[1]);
-        int year = Integer.parseInt(stockUnitDate[0]);
-        return filterStockByDateOneMonth(stockUnits, day, month, year);
+        if (stockUnits.size() > 0) {
+            String[] stockUnitDate = stockUnits.get(0).getDate().split("-");
+            int day = Integer.parseInt(stockUnitDate[2]);
+            int month = Integer.parseInt(stockUnitDate[1]);
+            int year = Integer.parseInt(stockUnitDate[0]);
+            return filterStockByDateOneMonth(stockUnits, day, month, year);
+        }
+        return List.of();
     }
 
     /**
