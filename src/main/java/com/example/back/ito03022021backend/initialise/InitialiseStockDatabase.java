@@ -1,6 +1,5 @@
 package com.example.back.ito03022021backend.initialise;
 
-import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.example.back.ito03022021backend.builders.StockBuilder;
 import com.example.back.ito03022021backend.contorllers.ApiController;
 import com.example.back.ito03022021backend.dto.StockDto;
