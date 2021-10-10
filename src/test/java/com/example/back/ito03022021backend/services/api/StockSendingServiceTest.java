@@ -8,9 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class StockSendingServiceTest {
@@ -22,7 +22,12 @@ public class StockSendingServiceTest {
 
     @Test
     void getStockDailyReturnsStockDto() {
-        StockDto stockDto = stockSendingService.getStockDaily("GOOG");
+        Optional<StockDto> stockDtoOptional = stockSendingService.getStockDaily("GOOG");
+        StockDto stockDto;
+        if (!stockDtoOptional.isPresent()) {
+            fail();
+        }
+        stockDto = stockDtoOptional.get();
         assertEquals(StockDto.class, stockDto.getClass());
         assertEquals("GOOG", stockDto.getSymbol());
 
@@ -45,7 +50,12 @@ public class StockSendingServiceTest {
     @Test
     void convertToStockDtoReturnsStockDto() {
         List<StockUnit> stockUnits = stockService.getStockDailyWithTimePeriodOneMonth("AAPL");
-        StockDto stockDto = stockSendingService.convertToStockDto("AAPL", stockUnits);
+        Optional<StockDto> stockDtoOptional = stockSendingService.convertToStockDto("AAPL", stockUnits);
+        StockDto stockDto;
+        if (!stockDtoOptional.isPresent()) {
+            fail();
+        }
+        stockDto = stockDtoOptional.get();
         assertEquals(StockDto.class, stockDto.getClass());
         assertEquals("AAPL", stockDto.getSymbol());
 
