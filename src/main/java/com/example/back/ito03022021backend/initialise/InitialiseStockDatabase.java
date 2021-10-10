@@ -14,7 +14,7 @@ import static java.lang.Thread.sleep;
 
 public class InitialiseStockDatabase {
 
-    private ApiService apiService = new ApiService();
+    private ApiService apiService = new ApiService();  // Siin on ApiService, nüüd tehakse back-endis kaks ApiServicet, mis äkki ei ole kõige parem?
     private StockService stockService = new StockService(apiService);
 
     public void initialiseStockDatabase(StockRepository repository, String contents) {
