@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StockSendingService {
@@ -34,7 +35,7 @@ public class StockSendingService {
      * @param symbol of the stock (String)
      * @return StockDto instance
      */
-    public StockDto getStockDaily(String symbol) {  // Test.
+    public Optional<StockDto> getStockDaily(String symbol) {  // Test.
         return convertToStockDto(symbol, stockService.getStockDailyWithTimePeriodOneMonth(symbol));
     }
 
@@ -45,10 +46,13 @@ public class StockSendingService {
      * @param stockUnits list of stock units (List<StockUnit>)
      * @return StockDto instance
      */
-    public StockDto convertToStockDto(String symbol, List<StockUnit> stockUnits) {  // Test.
+    public Optional<StockDto> convertToStockDto(String symbol, List<StockUnit> stockUnits) {  // Test.
         List<String> stockDateInfo = new LinkedList<>();
         List<Double> stockCloseInfo = new LinkedList<>();
         List<Long> stockVolumesMonthly = new ArrayList<>();
+        if (stockUnits.isEmpty()) {
+            return Optional.empty();
+        }
         StockUnit stockUnit = stockUnits.get(0);
         Double open = stockUnit.getOpen();
         Double close = stockUnit.getClose();
@@ -62,7 +66,7 @@ public class StockSendingService {
             stockDateInfo.add(stockUnit.getDate());
             stockVolumesMonthly.add(stockUnit.getVolume());
         }
-        return new StockDtoBuilder()
+        StockDto stockDto =  new StockDtoBuilder()
                 .withClose(close)
                 .withHigh(high)
                 .withOpen(open)
@@ -74,6 +78,6 @@ public class StockSendingService {
                 .withAverageMonthlyVolume(this.stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly))
                 .withAverageMonthlyPrice(this.stockCalculations.getMonthlyAveragePrice(stockCloseInfo))
                 .buildStockDto();
-
+        return Optional.of(stockDto);
     }
 }

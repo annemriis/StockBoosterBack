@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpHeaders;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping(path = "/api")
 @RestController
@@ -33,7 +34,8 @@ public class ApiController {
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {  // Test.
         // Header needs to be attatched to dto so that front-end can get header
-        return this.stockSendingService.getStockDaily(symbol);
+        Optional<StockDto> stockDtoOptional = this.stockSendingService.getStockDaily(symbol);
+        return stockDtoOptional.orElseGet(StockDto::new);
     }
 
     @GetMapping(path = "/stock/{symbol}?time-series=intraday")

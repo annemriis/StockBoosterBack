@@ -13,6 +13,7 @@ import org.springframework.util.FileCopyUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
 @EntityScan
 @SpringBootApplication
@@ -36,6 +37,8 @@ public class Ito03022021BackEndApplication {
             e.printStackTrace();
         }
 
-        return args -> repository.findAll().forEach(stock -> System.out.println(stock.getSymbol()));
+        return args -> repository
+                .findAll()
+                .forEach(stock -> Logger.getLogger(getClass().getName()).info(stock.getSymbol()));
     }
 }

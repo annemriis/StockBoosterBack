@@ -29,11 +29,11 @@ public class InitialiseStockDatabase {
     }
 
     public void addStocksToDatabase(List<String> symbols, StockRepository stockRepository) {
-        for (int i = 0; i < symbols.size(); i++) {
-            String symbol = symbols.get(i);
+        symbols.forEach(symbol -> {
+            System.out.println(symbol);
             StockDto stockDto = apiController.getStock(symbol);
             List<Double> stockCloseInfo = stockDto.getStockCloseInfo();
-            if (stockCloseInfo.size() > 1) {
+            if (stockCloseInfo != null && stockCloseInfo.size() > 1) {
                 // Get data for stock.
                 Double lastClose = stockCloseInfo.get(0);
                 Double close = stockCloseInfo.get(1);
@@ -50,6 +50,6 @@ public class InitialiseStockDatabase {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        });
     }
 }
