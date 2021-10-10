@@ -33,11 +33,11 @@ public class InitialiseStockDatabase {
         for (int i = 0; i < symbols.size(); i++) {
             String symbol = symbols.get(i);
             StockDto stockDto = apiController.getStock(symbol);
-            List<Double> stockClose = stockDto.getStockCloseInfo();
-            if (stockClose.size() > 1) {
+            List<Double> stockCloseInfo = stockDto.getStockCloseInfo();
+            if (stockCloseInfo.size() > 1) {
                 // Get data for stock.
-                Double lastClose = stockClose.get(0);
-                Double close = stockClose.get(1);
+                Double lastClose = stockCloseInfo.get(0);
+                Double close = stockCloseInfo.get(1);
                 // Create new Stock instance.
                 Stock stock = new StockBuilder()
                         .withSymbol(symbol)
