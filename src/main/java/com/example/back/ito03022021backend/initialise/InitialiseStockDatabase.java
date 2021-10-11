@@ -5,19 +5,35 @@ import com.example.back.ito03022021backend.dto.StockDto;
 import com.example.back.ito03022021backend.model.Stock;
 import com.example.back.ito03022021backend.model.StockRepository;
 import com.example.back.ito03022021backend.services.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.util.FileCopyUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Thread.sleep;
 
+@Configuration
+@EnableAsync
+@EnableScheduling
 public class InitialiseStockDatabase {
 
     private final ApiService apiService = new ApiService();
     private final StockService stockService = new StockService(apiService);
     private final StockCalculations stockCalculations = new StockCalculations();
     private final StockSendingService stockSendingService = new StockSendingService(stockService, stockCalculations);
+
+    @Autowired
+    private StockRepository stockRepository;
 
     public void initialiseStockDatabase(StockRepository repository, String contents) {
         List<String> symbols = Arrays.asList(contents.split(", "));
@@ -55,5 +71,18 @@ public class InitialiseStockDatabase {
     private StockDto getStockDto(String symbol) {
         Optional<StockDto> stockDtoOptional = stockSendingService.getStockDaily(symbol);
         return stockDtoOptional.orElseGet(StockDto::new);
+    }
+
+    @Scheduled(cron = "0 0 4 * * TUE-SAT", zone = "Europe/Sofia")
+    public void updateStockDatabase() {
+        System.out.println("Update");
+        try {
+            InputStream is = new ClassPathResource("/symbols/symbols_list.txt").getInputStream();
+            String contents = new String(FileCopyUtils.copyToByteArray(is), StandardCharsets.UTF_8);
+            initialiseStockDatabase(stockRepository, contents);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
