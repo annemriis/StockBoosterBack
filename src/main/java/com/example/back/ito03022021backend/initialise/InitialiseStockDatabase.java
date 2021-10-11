@@ -25,8 +25,11 @@ public class InitialiseStockDatabase {
     }
 
     public void addStocksToDatabase(List<String> symbols, StockRepository stockRepository) {
-        symbols.forEach(symbol -> {
-            System.out.println(symbol);
+        // Meetod ei käi hetkel kõiki sümboleid läbi, sest see võtaks liiga palju aega (kui keegi tahab nt oma koodi katsetada)
+        // StockRepository'sse lisatakse hetkel ainult 5 aktsiat, aga nendest katsetamisl peaks piisama.
+        // Õige for loop oleks (int i = 0; i < symbols.size(); i++)
+        for (int i = 0; i < 5; i++) {
+            String symbol = symbols.get(i);
             StockDto stockDto = getStockDto(symbol);
             List<Double> stockCloseInfo = stockDto.getStockCloseInfo();
             if (stockCloseInfo != null && stockCloseInfo.size() > 1) {
@@ -46,7 +49,7 @@ public class InitialiseStockDatabase {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });
+        }
     }
 
     private StockDto getStockDto(String symbol) {
