@@ -49,7 +49,7 @@ public class StockDtoTest {
         StockDto stockDto = stockSendingService.convertToStockDto("AAPL", stockUnits).get();
 
 
-        // make stock manually
+        // make stockDto manually
         List<String> stockDateInfo = new LinkedList<>();
         List<Double> stockCloseInfo = new LinkedList<>();
         List<Long> stockVolumesMonthly = new ArrayList<>();
@@ -88,6 +88,9 @@ public class StockDtoTest {
         assertEquals(stockDto.getStockCloseInfo(), stockDtoManual.getStockCloseInfo());
         assertEquals(stockDto.getAveragePriceMonthly(), stockDtoManual.getAveragePriceMonthly());
         assertEquals(stockDto.getAverageVolumeMonthly(), stockDtoManual.getAverageVolumeMonthly());
+        assertEquals(stockDto.getOpen(), stockDtoManual.getOpen());
+        assertEquals(stockDto.getStockDateInfo(), stockDtoManual.getStockDateInfo());
+
 
 
 
