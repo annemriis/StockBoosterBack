@@ -50,8 +50,8 @@ public class InitialiseStockDatabase {
             List<Double> stockCloseInfo = stockDto.getStockCloseInfo();
             if (stockCloseInfo != null && stockCloseInfo.size() > 1) {
                 // Get data for stock.
-                Double lastClose = stockCloseInfo.get(0);
-                Double close = stockCloseInfo.get(1);
+                Double lastClose = stockCloseInfo.get(1);
+                Double close = stockCloseInfo.get(0);
                 // Create new Stock instance.
                 Stock stock = new StockBuilder()
                         .withSymbol(symbol)

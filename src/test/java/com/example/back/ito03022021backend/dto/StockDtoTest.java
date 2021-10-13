@@ -90,12 +90,5 @@ public class StockDtoTest {
         assertEquals(stockDto.getAverageVolumeMonthly(), stockDtoManual.getAverageVolumeMonthly());
         assertEquals(stockDto.getOpen(), stockDtoManual.getOpen());
         assertEquals(stockDto.getStockDateInfo(), stockDtoManual.getStockDateInfo());
-
-
-
-
-
-
-
     }
 }
