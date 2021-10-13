@@ -34,6 +34,19 @@ public class ApiController {
     }
     // https://gitlab.cs.ttu.ee/petarv/iti0302-2021-heroes-back/-/tree/feature/api-w-db/src/main
 
+    /**
+     * This is for testing purposes only
+     * @param symbol of the stock
+     * @return list of stock unit data
+     */
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(path = "/stock/{symbol}/test")
+    public List<StockUnit> getStockk(@PathVariable String symbol) {  // Test.
+        // Header needs to be attatched to dto so that front-end can get header
+        return this.stockService.getStockDaily(symbol);
+    }
+
+
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {  // Test.
