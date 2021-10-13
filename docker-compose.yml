@@ -15,7 +15,6 @@ services:
   db:
     image: postgres:latest
     container_name: "stock-postgres"
-    command: --init-file src/main/resources/db/postgresql/v1_create_schema.sql
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root

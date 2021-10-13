@@ -20,14 +20,6 @@ public class StockService {
         this.api = apiService;
     }
 
-    public QuoteResponse getQuote(String symbol) {
-        return this.api
-                .getAlphaVantage()
-                .timeSeries()
-                .quote()
-                .forSymbol(symbol)
-                .fetchSync();
-    }
 
     public List<StockUnit> getStockDaily(String symbol) {
         return this.api.getAlphaVantage()
@@ -39,6 +31,7 @@ public class StockService {
                 .fetchSync()
                 .getStockUnits();
     }
+
 
     /**
      * Return a list with stock units within the current month.
