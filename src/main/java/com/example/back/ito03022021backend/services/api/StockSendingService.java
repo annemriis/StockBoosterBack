@@ -39,6 +39,7 @@ public class StockSendingService {
         return convertToStockDto(symbol, stockService.getStockDailyWithTimePeriodOneMonth(symbol));
     }
 
+
     /**
      * Convert stock units into StockDto.
      *

@@ -47,6 +47,8 @@ public class ApiController {
     }
 
 
+
+
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {  // Test.
