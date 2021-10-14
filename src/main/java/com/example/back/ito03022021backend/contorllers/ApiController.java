@@ -57,11 +57,13 @@ public class ApiController {
         return stockDtoOptional.orElseGet(StockDto::new);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}?time-series=intraday")
     public List<StockUnit> getStockIntraday(@PathVariable String symbol) {
         return this.stockService.getStockIntraday(symbol);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}/boost-morale")  // Uri võib olla vale, ei vasta REST printsiibile.
     public StockDto getStockWithWorsePerformance(@PathVariable String symbol) {
         Optional<StockDto> stockDtoOptional = this.findStock.findStocksWithWorsePerformance(symbol);
