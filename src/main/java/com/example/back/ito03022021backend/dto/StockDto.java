@@ -15,6 +15,24 @@ public class StockDto {  // Test.
     private List<Double> stockCloseInfo;
     private Double averagePriceMonthly;
     private Long averageVolumeMonthly;
+    private Double dailyPercentageChange;
+    private Double dailyPriceChange;
+
+    public Double getDailyPercentageChange() {
+        return dailyPercentageChange;
+    }
+
+    public void setDailyPercentageChange(Double dailyPercentageChange) {
+        this.dailyPercentageChange = dailyPercentageChange;
+    }
+
+    public Double getDailyPriceChange() {
+        return dailyPriceChange;
+    }
+
+    public void setDailyPriceChange(Double dailyPriceChange) {
+        this.dailyPriceChange = dailyPriceChange;
+    }
 
     public StockDto() {
     }

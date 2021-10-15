@@ -40,7 +40,7 @@ public class StockSendingService {
     }
 
 
-    /**
+    /** THIS METHOD NEEDS TO BE BROKEN DOWN TO SMALLER PIECES
      * Convert stock units into StockDto.
      *
      * @param symbol of the stock (String)
@@ -60,7 +60,9 @@ public class StockSendingService {
         Long volume = stockUnit.getVolume();
         Double high = stockUnit.getHigh();
         String date = stockUnit.getDate();
-
+        Double prevClose = stockUnits.get(1).getClose();
+        Double percentageChange = this.stockCalculations.getDailyPercentageChange(close, prevClose);
+        Double priceChange = this.stockCalculations.getDailyPriceChange(close, prevClose);
         for (int i = 0; i < stockUnits.size(); i++) {
             stockUnit = stockUnits.get(i);
             stockCloseInfo.add(stockUnit.getClose());
@@ -78,6 +80,8 @@ public class StockSendingService {
                 .withSymbol(symbol)
                 .withAverageMonthlyVolume(this.stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly))
                 .withAverageMonthlyPrice(this.stockCalculations.getMonthlyAveragePrice(stockCloseInfo))
+                .withDailyPercentageChange(percentageChange)
+                .withDailyPriceChange(priceChange)
                 .buildStockDto();
         return Optional.of(stockDto);
     }
