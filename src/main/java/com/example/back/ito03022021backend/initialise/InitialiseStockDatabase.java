@@ -61,7 +61,7 @@ public class InitialiseStockDatabase {
                 stockRepository.save(stock);
             }
             try {
-                sleep(10000);
+                sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
