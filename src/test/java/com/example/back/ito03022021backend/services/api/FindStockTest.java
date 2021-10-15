@@ -47,8 +47,8 @@ public class FindStockTest {
 
         StockDto stockDtoMMM = new StockDtoBuilder()
                 .withSymbol("MMM")
-                .withStockCloseInfo(List.of(300.2, 368.5, 456.4))
-                .withClose(300.2)
+                .withStockCloseInfo(List.of(100.3, 543.5))
+                .withClose(100.3)
                 .buildStockDto();
         Optional<StockDto> stockDtoOptionalMMM = Optional.of(stockDtoMMM);
 

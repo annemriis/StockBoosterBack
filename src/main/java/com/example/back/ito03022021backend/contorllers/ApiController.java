@@ -66,7 +66,7 @@ public class ApiController {
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}/boost-morale")  // Uri võib olla vale, ei vasta REST printsiibile.
     public StockDto getStockWithWorsePerformance(@PathVariable String symbol) {
-        Optional<StockDto> stockDtoOptional = this.findStock.findStocksWithWorsePerformance(symbol);
+        Optional<StockDto> stockDtoOptional = this.findStock.findStockWithWorsePerformance(symbol);
         return stockDtoOptional.orElseGet(StockDto::new);
     }
 }
