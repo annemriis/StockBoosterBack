@@ -26,7 +26,6 @@ public class Ito03022021BackEndApplication {
     // Meetod on hetkel vales kohas ja tagastab midagi.
     // Hetkel on välja kommenteeritud, sest muidu back-endi käivitamine võtab liig kaua aega (sest 500 sümbolit on vaja andmebaasi lisada).
     // Kui keegi tahab katsetad (näha, mida kood teeb), siis võib kommentaarid ära võtta.
-    /**
     @Bean
     public ApplicationRunner init(StockRepository repository) {
         InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase();
@@ -44,5 +43,4 @@ public class Ito03022021BackEndApplication {
                 .findAll()
                 .forEach(stock -> Logger.getLogger(getClass().getName()).info(stock.getSymbol()));
     }
-    **/
 }
