@@ -22,13 +22,13 @@ public class FindStock {
         this.stockRepository = stockRepository;
     }
 
-    public Optional<StockDto> findStocksWithWorsePerformance(String symbol) {
+    public Optional<StockDto> findStockWithWorsePerformance(String symbol) {
         List<Double> closeInfo = findStockCloseInformation(symbol);
         Double requestedStockLastClose;
         Double requestedStockClose;
         if (closeInfo.size() > 1) {
-            requestedStockLastClose = closeInfo.get(0);
-            requestedStockClose = closeInfo.get(1);
+            requestedStockLastClose = closeInfo.get(1);
+            requestedStockClose = closeInfo.get(0);
         } else {
             // If the ApiController can not find information about the given stock.
             return Optional.empty();
@@ -68,7 +68,7 @@ public class FindStock {
     }
 
     private Double calculateClosePercentage(Double lastClose, Double close) {
-        return 100 - (close / lastClose) * 100;
+        return 100.0 - (lastClose / close) * 100.0;
     }
 
     private StockDto getStockDto(String stockSymbol) {
