@@ -39,6 +39,7 @@ public class Ito03022021BackEndApplication {
             e.printStackTrace();
         }
 
+        Logger.getLogger(getClass().getName()).info("Database has been initialised.");
         return args -> repository
                 .findAll()
                 .forEach(stock -> Logger.getLogger(getClass().getName()).info(stock.getSymbol()));
