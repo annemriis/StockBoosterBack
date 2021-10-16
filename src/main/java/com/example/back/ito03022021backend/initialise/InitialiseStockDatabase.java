@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import static java.lang.Thread.sleep;
 
@@ -41,10 +42,15 @@ public class InitialiseStockDatabase {
     }
 
     public void addStocksToDatabase(List<String> symbols, StockRepository stockRepository) {
+        // Method does not add all of the symbols from symbols list to the database, because it would take too much time.
+        // If the API is in the server then we will add that it will add all symbols to the database.
+        // Correct for loop would be (int i = 0; i < symbols.size(); i++).
+
         // Meetod ei käi hetkel kõiki sümboleid läbi, sest see võtaks liiga palju aega (kui keegi tahab nt oma koodi katsetada)
-        // StockRepository'sse lisatakse hetkel ainult 5 aktsiat, aga nendest katsetamisl peaks piisama.
+        // StockRepository'sse lisatakse hetkel ainult 10 aktsiat, aga nendest katsetamisl peaks piisama.
         // Õige for loop oleks (int i = 0; i < symbols.size(); i++)
-        for (int i = 0; i < 5; i++) {
+
+        for (int i = 0; i < 10; i++) {
             String symbol = symbols.get(i);
             StockDto stockDto = getStockDto(symbol);
             List<Double> stockCloseInfo = stockDto.getStockCloseInfo();
@@ -61,7 +67,7 @@ public class InitialiseStockDatabase {
                 stockRepository.save(stock);
             }
             try {
-                sleep(1000);
+                sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -75,7 +81,7 @@ public class InitialiseStockDatabase {
 
     @Scheduled(cron = "0 0 4 * * TUE-SAT", zone = "Europe/Sofia")
     public void updateStockDatabase() {
-        System.out.println("Update");
+        Logger.getLogger(getClass().getName()).info("Update database");
         try {
             InputStream is = new ClassPathResource("/symbols/symbols_list.txt").getInputStream();
             String contents = new String(FileCopyUtils.copyToByteArray(is), StandardCharsets.UTF_8);
