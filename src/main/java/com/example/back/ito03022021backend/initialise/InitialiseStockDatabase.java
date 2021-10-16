@@ -47,10 +47,10 @@ public class InitialiseStockDatabase {
         // Correct for loop would be (int i = 0; i < symbols.size(); i++).
 
         // Meetod ei käi hetkel kõiki sümboleid läbi, sest see võtaks liiga palju aega (kui keegi tahab nt oma koodi katsetada)
-        // StockRepository'sse lisatakse hetkel ainult 10 aktsiat, aga nendest katsetamisl peaks piisama.
+        // StockRepository'sse lisatakse hetkel ainult 20 aktsiat, aga nendest katsetamisl peaks piisama.
         // Õige for loop oleks (int i = 0; i < symbols.size(); i++)
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             String symbol = symbols.get(i);
             StockDto stockDto = getStockDto(symbol);
             List<Double> stockCloseInfo = stockDto.getStockCloseInfo();
