@@ -64,7 +64,9 @@ public class StockDtoTest {
                 Long volume = stockUnit.getVolume();
                 Double high = stockUnit.getHigh();
                 String date = stockUnit.getDate();
-
+                Double prevClose = stockUnits.get(1).getClose();
+                Double percentageChange = stockCalculations.getDailyPercentageChange(close, prevClose);
+                Double priceChange = stockCalculations.getDailyPriceChange(close, prevClose);
                 for (int i = 0; i < stockUnits.size(); i++) {
                     stockUnit = stockUnits.get(i);
                     stockCloseInfo.add(stockUnit.getClose());
@@ -82,6 +84,8 @@ public class StockDtoTest {
                         .withSymbol("AAPL")
                         .withAverageMonthlyVolume(stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly))
                         .withAverageMonthlyPrice(stockCalculations.getMonthlyAveragePrice(stockCloseInfo))
+                        .withDailyPriceChange(percentageChange)
+                        .withDailyPriceChange(priceChange)
                         .buildStockDto();
 
                     // Both the stocks stats should be same.
@@ -95,6 +99,9 @@ public class StockDtoTest {
                     assertEquals(stockDto.getAverageVolumeMonthly(), stockDtoManual.getAverageVolumeMonthly());
                     assertEquals(stockDto.getOpen(), stockDtoManual.getOpen());
                     assertEquals(stockDto.getStockDateInfo(), stockDtoManual.getStockDateInfo());
+                    assertEquals(stockDto.getDailyPercentageChange(), stockDtoManual.getDailyPercentageChange());
+                    assertEquals(stockDto.getDailyPriceChange(), stockDtoManual.getDailyPriceChange());
+
             }
         });
 

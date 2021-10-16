@@ -25,6 +25,8 @@ public class StockDtoBuilderTest {
                 .withVolume(24456679L)
                 .withAverageMonthlyPrice(1930.5)
                 .withAverageMonthlyVolume(384848L)
+                .withDailyPercentageChange(1.5)
+                .withDailyPriceChange(100.00)
                 .buildStockDto();
         assertEquals("AAPL", stockDto.getSymbol());
         assertEquals(List.of(3.4, 5.3), stockDto.getStockCloseInfo());
@@ -36,5 +38,8 @@ public class StockDtoBuilderTest {
         assertEquals(24456679L, stockDto.getVolume());
         assertEquals(1930.5, stockDto.getAveragePriceMonthly());
         assertEquals(384848L, stockDto.getAverageVolumeMonthly());
+        assertEquals(1.5, stockDto.getDailyPercentageChange());
+        assertEquals(100.00, stockDto.getDailyPriceChange());
+
     }
 }
