@@ -2,7 +2,6 @@ package com.example.back.ito03022021backend.services.api;
 
 import com.crazzyghost.alphavantage.parameters.DataType;
 import com.crazzyghost.alphavantage.parameters.OutputSize;
-import com.crazzyghost.alphavantage.timeseries.response.QuoteResponse;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,14 +31,13 @@ public class StockService {
                 .getStockUnits();
     }
 
-
     /**
      * Return a list with stock units within the current month.
      *
      * @param symbol of the stock (String)
      * @return List with stock stock units within the current month.
      */
-    public List<StockUnit> getStockDailyWithTimePeriodOneMonth(String symbol) {  // Test.
+    public List<StockUnit> getStockDailyWithTimePeriodOneMonth(String symbol) {
         List<StockUnit> stockUnits = this.api.getAlphaVantage()
                 .timeSeries()
                 .daily()

@@ -1,7 +1,6 @@
 package com.example.back.ito03022021backend.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Stock {
