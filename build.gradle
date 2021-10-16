@@ -21,7 +21,6 @@ buildscript {
         classpath('org.springframework.boot:spring-boot-starter-web:2.5.4')
         classpath('org.postgresql:postgresql:42.2.23.jre7')
         classpath('org.springframework.boot:spring-boot-starter-test:2.5.4')
-        classpath('com.google.code.gson:gson:2.8.8')
 
     }
 
@@ -49,23 +48,17 @@ repositories {
 
 dependencies {
 
-    implementation 'org.springframework.boot:spring-boot-starter:2.5.4'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.4'
+    implementation 'org.springframework.boot:spring-boot-starter:2.5.5'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
     implementation 'com.github.crazzyghost:alphavantage-java:1.5.0'
     implementation 'io.springfox:springfox-swagger2:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa:2.5.4')
-    implementation('org.springframework.boot:spring-boot-starter-web:2.5.4')
-    implementation('org.postgresql:postgresql:42.2.23.jre7')
-    testImplementation('org.springframework.boot:spring-boot-starter-test:2.5.4')
-    testImplementation 'org.apache.httpcomponents:httpclient'
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa:2.5.5')
+    implementation('org.springframework.boot:spring-boot-starter-web:2.5.5')
+    implementation('org.postgresql:postgresql:42.2.24.jre7')
+    testImplementation('org.springframework.boot:spring-boot-starter-test:2.5.5')
     runtimeOnly('com.h2database:h2:1.4.200')
-    implementation 'com.google.code.gson:gson:2.8.8'
-
-
-
-    runtimeOnly 'com.h2database:h2:1.4.200'
 }
 
 

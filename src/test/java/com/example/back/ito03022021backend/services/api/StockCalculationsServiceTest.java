@@ -58,6 +58,8 @@ public class StockCalculationsServiceTest {
                 List<String> stockDateInfo = new LinkedList<>();
                 List<Double> stockCloseInfo = new LinkedList<>();
                 List<Long> stockVolumesMonthly = new ArrayList<>();
+                Double close = stockUnits.get(0).getClose();
+                Double prevClose = stockUnits.get(1).getClose();
                 for (int i = 0; i < stockUnits.size(); i++) {
                     StockUnit stockUnit = stockUnits.get(i);
                     stockCloseInfo.add(stockUnit.getClose());
@@ -69,6 +71,13 @@ public class StockCalculationsServiceTest {
                 if (dto.isPresent()) {
                     stockDto = dto.get();
                 }
+
+                Double percentageChange = stockCalculations.getDailyPercentageChange(close, prevClose);
+                assertEquals(stockDto.getDailyPercentageChange(), percentageChange);
+
+
+                Double priceChange = stockCalculations.getDailyPriceChange(close, prevClose);
+                assertEquals(stockDto.getDailyPriceChange(), priceChange);
 
                 double avgPrice = stockCalculations.getMonthlyAveragePrice(stockCloseInfo);
                 assertEquals(avgPrice, stockDto.getAveragePriceMonthly());
