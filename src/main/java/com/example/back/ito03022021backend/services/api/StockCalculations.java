@@ -23,5 +23,12 @@ public class StockCalculations {
         return average / volumes.size();
     }
 
+    public Double getDailyPercentageChange(Double lastClose, Double previousCloseBeforeLast) {
+        return ((lastClose - previousCloseBeforeLast) / previousCloseBeforeLast) * 100;
+    }
+    public Double getDailyPriceChange(Double lastClose, Double previousCloseBeforeLast) {
+        return lastClose - previousCloseBeforeLast;
+    }
+
 
 }
