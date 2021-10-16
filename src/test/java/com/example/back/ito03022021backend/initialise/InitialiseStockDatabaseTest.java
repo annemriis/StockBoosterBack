@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,54 +31,72 @@ public class InitialiseStockDatabaseTest {
 
     @Test
     void testAddStockToDatabase() {
-        List<String> symbols = List.of("AAPL", "GOOG", "MMM", "ABT", "ABBV");
-        InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase();
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
 
-        initialiseStockDatabase.addStocksToDatabase(symbols, stockRepository);
+        executorService.execute(new Runnable() {
+            public void run() {
 
-        // Stocks are in the database.
-        assertNotNull(stockRepository.findStockBySymbol("AAPL"));
-        assertEquals("AAPL", stockRepository.findStockBySymbol("AAPL").getSymbol());
-        assertEquals("GOOG", stockRepository.findStockBySymbol("GOOG").getSymbol());
-        assertEquals("MMM", stockRepository.findStockBySymbol("MMM").getSymbol());
-        assertEquals("ABT", stockRepository.findStockBySymbol("ABT").getSymbol());
-        assertEquals("ABBV", stockRepository.findStockBySymbol("ABBV").getSymbol());
+                List<String> symbols = List.of("AAPL", "GOOG", "MMM", "ABT", "ABBV");
+                InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase();
 
-        Optional<StockDto> AAPLStockDtoOptional = stockSendingService.getStockDaily("AAPL");
-        StockDto AAPLStockDto = new StockDto();
-        if (AAPLStockDtoOptional.isPresent()) {
-            AAPLStockDto = AAPLStockDtoOptional.get();
-        }
+                initialiseStockDatabase.addStocksToDatabase(symbols, stockRepository);
 
-        // Close and lastClose are in the database.
-        assertEquals(AAPLStockDto.getStockCloseInfo().get(1), stockRepository.findStockBySymbol("AAPL").getLastClose());
-        assertEquals(AAPLStockDto.getClose(), stockRepository.findStockBySymbol("AAPL").getClose());
+                // Stocks are in the database.
+                assertNotNull(stockRepository.findStockBySymbol("AAPL"));
+                assertEquals("AAPL", stockRepository.findStockBySymbol("AAPL").getSymbol());
+                assertEquals("GOOG", stockRepository.findStockBySymbol("GOOG").getSymbol());
+                assertEquals("MMM", stockRepository.findStockBySymbol("MMM").getSymbol());
+                assertEquals("ABT", stockRepository.findStockBySymbol("ABT").getSymbol());
+                assertEquals("ABBV", stockRepository.findStockBySymbol("ABBV").getSymbol());
+
+                Optional<StockDto> AAPLStockDtoOptional = stockSendingService.getStockDaily("AAPL");
+                StockDto AAPLStockDto = new StockDto();
+                if (AAPLStockDtoOptional.isPresent()) {
+                    AAPLStockDto = AAPLStockDtoOptional.get();
+                }
+
+                // Close and lastClose are in the database.
+                assertEquals(AAPLStockDto.getStockCloseInfo().get(1), stockRepository.findStockBySymbol("AAPL").getLastClose());
+                assertEquals(AAPLStockDto.getClose(), stockRepository.findStockBySymbol("AAPL").getClose());
+            }
+        });
+
+        executorService.shutdown();
     }
 
     @Test
     void testInitialiseStockDatabase() {
-        String contents = "AAPL, GOOG, MMM, ABT, ABBV";
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
 
-        InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase();
+        executorService.execute(new Runnable() {
+            public void run() {
 
-        initialiseStockDatabase.initialiseStockDatabase(stockRepository, contents);
+                String contents = "AAPL, GOOG, MMM, ABT, ABBV";
 
-        // Stocks are in the database.
-        assertNotNull(stockRepository.findStockBySymbol("AAPL"));
-        assertEquals("AAPL", stockRepository.findStockBySymbol("AAPL").getSymbol());
-        assertEquals("GOOG", stockRepository.findStockBySymbol("GOOG").getSymbol());
-        assertEquals("MMM", stockRepository.findStockBySymbol("MMM").getSymbol());
-        assertEquals("ABT", stockRepository.findStockBySymbol("ABT").getSymbol());
-        assertEquals("ABBV", stockRepository.findStockBySymbol("ABBV").getSymbol());
+                InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase();
 
-        Optional<StockDto> GOOGStockDtoOptional = stockSendingService.getStockDaily("GOOG");
-        StockDto GOOGStockDto = new StockDto();
-        if (GOOGStockDtoOptional.isPresent()) {
-            GOOGStockDto = GOOGStockDtoOptional.get();
-        }
+                initialiseStockDatabase.initialiseStockDatabase(stockRepository, contents);
 
-        // Close and lastClose are in the database.
-        assertEquals(GOOGStockDto.getStockCloseInfo().get(1), stockRepository.findStockBySymbol("GOOG").getLastClose());
-        assertEquals(GOOGStockDto.getClose(), stockRepository.findStockBySymbol("GOOG").getClose());
+                // Stocks are in the database.
+                assertNotNull(stockRepository.findStockBySymbol("AAPL"));
+                assertEquals("AAPL", stockRepository.findStockBySymbol("AAPL").getSymbol());
+                assertEquals("GOOG", stockRepository.findStockBySymbol("GOOG").getSymbol());
+                assertEquals("MMM", stockRepository.findStockBySymbol("MMM").getSymbol());
+                assertEquals("ABT", stockRepository.findStockBySymbol("ABT").getSymbol());
+                assertEquals("ABBV", stockRepository.findStockBySymbol("ABBV").getSymbol());
+
+                Optional<StockDto> GOOGStockDtoOptional = stockSendingService.getStockDaily("GOOG");
+                StockDto GOOGStockDto = new StockDto();
+                if (GOOGStockDtoOptional.isPresent()) {
+                    GOOGStockDto = GOOGStockDtoOptional.get();
+                }
+
+                // Close and lastClose are in the database.
+                assertEquals(GOOGStockDto.getStockCloseInfo().get(1), stockRepository.findStockBySymbol("GOOG").getLastClose());
+                assertEquals(GOOGStockDto.getClose(), stockRepository.findStockBySymbol("GOOG").getClose());
+            }
+        });
+
+        executorService.shutdown();
     }
 }
