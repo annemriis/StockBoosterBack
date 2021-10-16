@@ -1,6 +1,5 @@
 package com.example.back.ito03022021backend.databaseTests;
 
-
 import com.example.back.ito03022021backend.builders.UserBuilder;
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.model.UsersRepository;
@@ -13,14 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @AutoConfigureMockMvc
 @SpringBootTest
