@@ -1,6 +1,5 @@
 package com.example.back.ito03022021backend.services.api;
 
-
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.example.back.ito03022021backend.dto.StockDto;
 import org.json.JSONArray;

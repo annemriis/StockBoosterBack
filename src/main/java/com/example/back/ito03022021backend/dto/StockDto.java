@@ -1,9 +1,8 @@
 package com.example.back.ito03022021backend.dto;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class StockDto {  // Test.
+public class StockDto {
 
     private String symbol;
     private Double open;
@@ -17,22 +16,6 @@ public class StockDto {  // Test.
     private Long averageVolumeMonthly;
     private Double dailyPercentageChange;
     private Double dailyPriceChange;
-
-    public Double getDailyPercentageChange() {
-        return dailyPercentageChange;
-    }
-
-    public void setDailyPercentageChange(Double dailyPercentageChange) {
-        this.dailyPercentageChange = dailyPercentageChange;
-    }
-
-    public Double getDailyPriceChange() {
-        return dailyPriceChange;
-    }
-
-    public void setDailyPriceChange(Double dailyPriceChange) {
-        this.dailyPriceChange = dailyPriceChange;
-    }
 
     public StockDto() {
     }
@@ -115,5 +98,21 @@ public class StockDto {  // Test.
 
     public void setStockCloseInfo(List<Double> stockCloseInfo) {
         this.stockCloseInfo = stockCloseInfo;
+    }
+
+    public Double getDailyPercentageChange() {
+        return dailyPercentageChange;
+    }
+
+    public void setDailyPercentageChange(Double dailyPercentageChange) {
+        this.dailyPercentageChange = dailyPercentageChange;
+    }
+
+    public Double getDailyPriceChange() {
+        return dailyPriceChange;
+    }
+
+    public void setDailyPriceChange(Double dailyPriceChange) {
+        this.dailyPriceChange = dailyPriceChange;
     }
 }

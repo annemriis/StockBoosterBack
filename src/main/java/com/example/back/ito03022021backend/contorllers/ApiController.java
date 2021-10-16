@@ -10,7 +10,6 @@ import com.example.back.ito03022021backend.services.api.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,17 +40,14 @@ public class ApiController {
      */
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}/test")
-    public List<StockUnit> getStockk(@PathVariable String symbol) {  // Test.
+    public List<StockUnit> getStockk(@PathVariable String symbol) {
         // Header needs to be attatched to dto so that front-end can get header
         return this.stockService.getStockDaily(symbol);
     }
 
-
-
-
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}")
-    public StockDto getStock(@PathVariable String symbol) {  // Test.
+    public StockDto getStock(@PathVariable String symbol) {
         // Header needs to be attatched to dto so that front-end can get header
         Optional<StockDto> stockDtoOptional = this.stockSendingService.getStockDaily(symbol);
         return stockDtoOptional.orElseGet(StockDto::new);
@@ -64,7 +60,7 @@ public class ApiController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping(path = "/stock/{symbol}/boost-morale")  // Uri võib olla vale, ei vasta REST printsiibile.
+    @GetMapping(path = "/stock/{symbol}/boost-morale")
     public StockDto getStockWithWorsePerformance(@PathVariable String symbol) {
         Optional<StockDto> stockDtoOptional = this.findStock.findStockWithWorsePerformance(symbol);
         return stockDtoOptional.orElseGet(StockDto::new);
