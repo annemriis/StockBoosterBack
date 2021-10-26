@@ -8,21 +8,35 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_PROFILES_ACTIVE=local
+      - AWS_REGION=local
+      - ENVIRONMENT=local
+    networks:
+      - mynet
+
   db:
     image: postgres:latest
-    container_name: "stock-postgres"
+    container_name: "postgres"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=postgres
+      - POSTGRES_ROOT_PASSWORD=postgres
+
+    user: postgres
     ports:
       - "5632:5432"
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+    healthcheck:
+        timeout: 45s
+        interval: 10s
+        retries: 10
+    restart: always
+    networks:
+      - mynet
+
 
   testsdb:
     image: oscarfonts/h2
@@ -40,3 +54,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+
+networks:
+  mynet:
+    driver: bridge
