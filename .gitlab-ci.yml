@@ -20,6 +20,7 @@ build stocks:
   tags:
     - stocks
   script:
+    -  chmod +x gradlew
     - ./gradlew wrapper
     - ./gradlew assemble
 
