@@ -21,12 +21,12 @@ build heroes:
   script:
     - ./gradlew assemble
 
-test heroes:
-  stage: test
-  tags:
-    - stocks
-  script:
-    - ./gradlew check
+#test heroes:
+#  stage: test
+#  tags:
+#    - stocks
+#  script:
+#    - ./gradlew check
 
 deploy heroes:
   stage: deploy
