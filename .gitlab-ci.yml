@@ -18,8 +18,8 @@ build stocks:
   tags:
     - stocks
   script:
-    - gradle wrapper
-    - gradle assemble
+    - ./gradle wrapper
+    - ./gradle assemble
 
 
 #test heroes:
