@@ -18,8 +18,8 @@ build stocks:
   tags:
     - stocks
   script:
-    - sudo -b ./gradlew wrapper
-    - sudo -b ./gradlew assemble
+    - gradle wrapper
+    - gradle assemble
 
 
 #test heroes:
