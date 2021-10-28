@@ -18,8 +18,8 @@ build stocks:
   tags:
     - stocks
   script:
-    - sudo ./gradlew wrapper -S
-    - sudo ./gradlew assemble
+    - sudo -b ./gradlew wrapper
+    - sudo -b ./gradlew assemble
 
 
 #test heroes:
@@ -35,7 +35,7 @@ deploy stocks:
     refs:
       - master
   tags:
-    - heroes
+    - stocks
   script:
     - mkdir -p ~/api-deployment # mkdir make folder api-deployment ~/ is under current user directory so for gitlab it would be /home/gitlab/api-deployment
     - rm -rf ~/api-deployment/* # rm remove -rf is recursive files from api-deployment
