@@ -18,7 +18,7 @@ build stocks:
   tags:
     - stocks
   script:
-    - sudo ./gradlew wrapper
+    - sudo ./gradlew wrapper -S
     - sudo ./gradlew assemble
 
 
