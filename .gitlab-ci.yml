@@ -6,7 +6,7 @@ stages:
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
-build heroes:
+build stocks:
   stage: build
   cache:
     paths:
@@ -18,7 +18,9 @@ build heroes:
   tags:
     - stocks
   script:
+    - ./gradlew wrapper
     - ./gradlew assemble
+
 
 #test heroes:
 #  stage: test
@@ -27,7 +29,7 @@ build heroes:
 #  script:
 #    - ./gradlew check
 
-deploy heroes:
+deploy stocks:
   stage: deploy
   only:
     refs:
