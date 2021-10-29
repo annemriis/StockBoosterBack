@@ -27,3 +27,25 @@
 - Run Dockerfile and docker-compose.yml testsdb
 - Select test module and run tests with coverage
 - Because we are using an external API and tests have to run on different threads and database has to be initilised, running test takes time (approximately 5 minutes to run all tests).
+
+### Second part
+
+
+
+## Connect to server
+- run: `ssh ubuntu@13.48.85.253`
+
+## Gitlab runner
+- Use class guide `https://olegpahhomov.gitlab.io/guides/production/gitlab_runner/`
+- for <> use amd64
+- replace heroes with stocks
+- add `image: gradle:jdk11` tot the top of the `.gitlab-ci.yml` file
+- build stock should inc
+- 
+
+## Install java
+- run `sudo apt update && apt upgrade`
+- run `sudo apt install default-jre && apt install default-jdk`
+- verify that java is installed `javac -version` output should be `javac 11.0.11`
+
+  
