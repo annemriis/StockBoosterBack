@@ -36,6 +36,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
+      - 42-gitlab-ci-part-2
       - main # only branch to be deployed
   tags:
     - stocks
