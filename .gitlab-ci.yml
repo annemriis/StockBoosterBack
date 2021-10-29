@@ -36,7 +36,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
-      - master
+      - main # only branch to be deployed
   tags:
     - stocks
   script:
