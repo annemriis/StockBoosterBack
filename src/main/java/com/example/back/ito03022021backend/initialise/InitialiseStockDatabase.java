@@ -50,7 +50,7 @@ public class InitialiseStockDatabase {
         // StockRepository'sse lisatakse hetkel ainult 20 aktsiat, aga nendest katsetamisl peaks piisama.
         // Õige for loop oleks (int i = 0; i < symbols.size(); i++)
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             String symbol = symbols.get(i);
             StockDto stockDto = getStockDto(symbol);
             List<Double> stockCloseInfo = stockDto.getStockCloseInfo();
