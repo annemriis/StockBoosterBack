@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping(path = {"/api", "/api2"})
+@RequestMapping(path = "/api")
 @RestController
 public class ApiController {
 
