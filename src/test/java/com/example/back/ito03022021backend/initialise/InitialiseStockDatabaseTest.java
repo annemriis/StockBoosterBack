@@ -1,7 +1,7 @@
 package com.example.back.ito03022021backend.initialise;
 
 import com.example.back.ito03022021backend.dto.StockDto;
-import com.example.back.ito03022021backend.model.StockRepository;
+import com.example.back.ito03022021backend.repositories.StockRepository;
 import com.example.back.ito03022021backend.services.api.ApiService;
 import com.example.back.ito03022021backend.services.api.StockCalculations;
 import com.example.back.ito03022021backend.services.api.StockSendingService;

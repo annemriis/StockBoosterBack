@@ -2,7 +2,7 @@ package com.example.back.ito03022021backend.databaseTests;
 
 import com.example.back.ito03022021backend.builders.UserBuilder;
 import com.example.back.ito03022021backend.model.User;
-import com.example.back.ito03022021backend.model.UsersRepository;
+import com.example.back.ito03022021backend.repositories.UsersRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,8 +21,6 @@ public class DatabaseTests {
     private final UsersRepository usersRepository;
     private final UserBuilder userBuilder;
 
-    @Autowired
-    private MockMvc mockMvc;
 
 
     @Autowired

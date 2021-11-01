@@ -2,7 +2,7 @@ package com.example.back.ito03022021backend.services.api;
 
 import com.example.back.ito03022021backend.dto.StockDto;
 import com.example.back.ito03022021backend.model.Stock;
-import com.example.back.ito03022021backend.model.StockRepository;
+import com.example.back.ito03022021backend.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

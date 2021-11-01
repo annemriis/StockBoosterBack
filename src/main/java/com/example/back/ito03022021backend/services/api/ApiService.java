@@ -33,20 +33,6 @@ public final class ApiService {
     }
 
     /**
-     * Set apis calling to daily
-     */
-    public void setApiToDaily() {
-        this.alphaVantage.timeSeries().daily();
-    }
-
-    /**
-     * Set apis calling to weekly
-     */
-    public void setApiToWeekly() {
-        this.alphaVantage.timeSeries().weekly();
-    }
-
-    /**
      * Set apis calling to intraday
      */
     public void setApiToIntraday() {
