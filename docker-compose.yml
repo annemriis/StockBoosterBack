@@ -36,8 +36,6 @@ services:
     restart: always
     networks:
       - mynet
-Fi
-
 
 networks:
   mynet:
