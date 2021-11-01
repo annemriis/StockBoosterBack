@@ -4,7 +4,7 @@ import com.example.back.ito03022021backend.builders.StockBuilder;
 import com.example.back.ito03022021backend.dto.StockDto;
 import com.example.back.ito03022021backend.dto.StockDtoBuilder;
 import com.example.back.ito03022021backend.model.Stock;
-import com.example.back.ito03022021backend.model.StockRepository;
+import com.example.back.ito03022021backend.repositories.StockRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

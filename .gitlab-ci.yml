@@ -46,3 +46,4 @@ deploy stocks:
     - rm -rf ~/api-deployment/* # rm remove -rf is recursive files from api-deployment
     - cp -r build/libs/. ~/api-deployment # cp - copy build/libs is where
     - sudo service stocks restart  # this requires sudo rights for gitlab user
+

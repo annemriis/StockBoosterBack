@@ -1,7 +1,7 @@
 package com.example.back.ito03022021backend;
 
 import com.example.back.ito03022021backend.initialise.InitialiseStockDatabase;
-import com.example.back.ito03022021backend.model.StockRepository;
+import com.example.back.ito03022021backend.repositories.StockRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

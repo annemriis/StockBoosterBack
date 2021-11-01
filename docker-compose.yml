@@ -37,25 +37,6 @@ services:
     networks:
       - mynet
 
-
-  testsdb:
-    image: oscarfonts/h2
-    container_name: "stock-db-test"
-    ports:
-      - "5633:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=User
-    volumes:
-      - ./postgres-data:/opt/h2-data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-
 networks:
   mynet:
     driver: bridge

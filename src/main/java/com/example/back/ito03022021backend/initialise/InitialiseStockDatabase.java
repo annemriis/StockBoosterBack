@@ -3,7 +3,7 @@ package com.example.back.ito03022021backend.initialise;
 import com.example.back.ito03022021backend.builders.StockBuilder;
 import com.example.back.ito03022021backend.dto.StockDto;
 import com.example.back.ito03022021backend.model.Stock;
-import com.example.back.ito03022021backend.model.StockRepository;
+import com.example.back.ito03022021backend.repositories.StockRepository;
 import com.example.back.ito03022021backend.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

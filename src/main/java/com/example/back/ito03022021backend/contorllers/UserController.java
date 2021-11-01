@@ -3,7 +3,7 @@ package com.example.back.ito03022021backend.contorllers;
 
 import com.example.back.ito03022021backend.builders.UserBuilder;
 import com.example.back.ito03022021backend.model.User;
-import com.example.back.ito03022021backend.model.UsersRepository;
+import com.example.back.ito03022021backend.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
