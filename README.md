@@ -30,6 +30,10 @@
 ### Second part
 
 
+## Install docker and docker-compose
+- install docker engine with this guide 'https://docs.docker.com/engine/install/ubuntu/'
+- get docker compose with this 'https://docs.docker.com/compose/install/'
+
 
 ## Connect to server
 - run: `ssh ubuntu@13.48.85.253`
@@ -50,22 +54,20 @@
 ## Backend service
 - cd /etc/systemd/system/
 - sudo touch stocks.service
-- copy following text to stocks.service 
-'[Unit]
-  Description=stocks service
-  After=network.target
+  - copy following text to stocks.service 
+  '[Unit]
+    Description=stocks service
+    After=network.target
 
-[Service]
-Type=simple
-User=gitlab-runner
-WorkingDirectory=/home/gitlab-runner/api-deployment
-ExecStart=/usr/bin/java -jar ito0302-2021-back-end-0.0.1.jar
-Restart=on-abort
+    [Service]
+    Type=simple
+    User=gitlab-runner
+    WorkingDirectory=/home/gitlab-runner/api-deployment
+    ExecStart=/usr/bin/java -jar ito0302-2021-back-end-0.0.1.jar
+    Restart=on-abort
 
-[Install]
-WantedBy=multi-user.target'
+    [Install]
+    WantedBy=multi-user.target'
 
 ## service must be restarted
 - sudo service stocks restart
-
-  
