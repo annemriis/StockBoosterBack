@@ -21,6 +21,7 @@ build stocks:
     - stocks
   script:
     -  chmod +x gradlew
+    -  docker-compose up -d db
     - ./gradlew wrapper
     - ./gradlew assemble
 
