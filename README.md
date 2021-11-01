@@ -47,4 +47,25 @@
 - run `sudo apt install default-jre && apt install default-jdk`
 - verify that java is installed `javac -version` output should be `javac 11.0.11`
 
+## Backend service
+- cd /etc/systemd/system/
+- sudo touch stocks.service
+- copy following text to stocks.service 
+'[Unit]
+  Description=stocks service
+  After=network.target
+
+[Service]
+Type=simple
+User=gitlab-runner
+WorkingDirectory=/home/gitlab-runner/api-deployment
+ExecStart=/usr/bin/java -jar ito0302-2021-back-end-0.0.1.jar
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target'
+
+## service must be restarted
+- sudo service stocks restart
+
   
