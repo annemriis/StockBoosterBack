@@ -68,6 +68,33 @@
 
     [Install]
     WantedBy=multi-user.target'
-
-## service must be restarted
+  
+service must be restarted
 - sudo service stocks restart
+
+
+## Nginx
+- sudo apt-get install nginx
+- vim /etc/nginx/sites-enabled/default
+  - change the file :
+    'server {
+     listen 80 default_server;
+     listen [::]:80 default_server;
+
+        root /var/www/front-deployment;
+
+        server_name _;
+
+        location /api/ {
+             proxy_pass   http://localhost:8080;
+        }
+
+        location / {
+             root /var/www/front-deployment/iti0302-front-end/;
+             index index.html index.htm;
+             if (!-e $request_filename){
+                 rewrite ^(.*)$ /index.html break;
+             }
+        }
+    }'
+- sudo service nginx restart
