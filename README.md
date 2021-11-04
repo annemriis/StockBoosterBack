@@ -51,26 +51,35 @@
 - run `sudo apt install default-jre && apt install default-jdk`
 - verify that java is installed `javac -version` output should be `javac 11.0.11`
 
-## Backend service
-- cd /etc/systemd/system/
-- sudo touch stocks.service
-  - copy following text to stocks.service 
-  '[Unit]
-    Description=stocks service
-    After=network.target
+## Define backend as Linux service
+ - go to `cd /etc/systemd/system/`
+ - `sudo touch stocks.service`
+ - copy following code to stocks.service (`sudo nano stocks.service`)
 
-    [Service]
-    Type=simple
-    User=gitlab-runner
-    WorkingDirectory=/home/gitlab-runner/api-deployment
-    ExecStart=/usr/bin/java -jar ito0302-2021-back-end-0.0.1.jar
-    Restart=on-abort
+```bash
+[Unit]
+Description=stocks service
+After=network.target
 
-    [Install]
-    WantedBy=multi-user.target'
-  
-service must be restarted
-- sudo service stocks restart
+[Service]
+Type=simple
+User=gitlab-runner
+WorkingDirectory=/home/gitlab-runner/api-deployment
+ExecStart=/usr/bin/java -jar ito0302-2021-back-end-0.0.1.jar
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+```
+
+ - reload configurations with `sudo systemctl daemon-reload`
+ - enable process with `sudo systemctl enable stocks`
+ - service must be restarted with command `sudo service stocks restart`
+
+
+## Allow GitLab runner to restart backend service
+ - as Ubuntu user type `sudo visudo`
+ - add the following line to the end of the file `gitlab-runner ALL = NOPASSWD: /usr/sbin/service stocks *`
 
 
 ## Nginx
