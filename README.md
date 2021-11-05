@@ -82,13 +82,20 @@ WantedBy=multi-user.target
  - add the following line to the end of the file `gitlab-runner ALL = NOPASSWD: /usr/sbin/service stocks *`
 
 
-## Nginx
-- sudo apt-get install nginx
-- vim /etc/nginx/sites-enabled/default
-  - change the file :
-    'server {
-     listen 80 default_server;
-     listen [::]:80 default_server;
+## Nginx and backend proxy
+
+ - Go to `/etc/nginx/sites-enabled/` and add the following line to the `default` file:
+```bash
+location /api/ {  
+    proxy_pass   http://localhost:8080;  
+}
+```
+ - `sudo service nginx restart`
+ - Nginx `default` file looks like this:
+```bash
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
 
         root /var/www/front-deployment;
 
@@ -105,5 +112,5 @@ WantedBy=multi-user.target
                  rewrite ^(.*)$ /index.html break;
              }
         }
-    }'
-- sudo service nginx restart
+}
+```
