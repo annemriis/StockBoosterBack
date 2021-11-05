@@ -61,7 +61,7 @@
 Description=stocks service
 After=network.target
 
-[Service]
+[Service] 
 Type=simple
 User=gitlab-runner
 WorkingDirectory=/home/gitlab-runner/api-deployment
