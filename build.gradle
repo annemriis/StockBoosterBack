@@ -67,7 +67,3 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-springBoot  {
-    buildInfo()
-}
