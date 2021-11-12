@@ -1,8 +1,22 @@
 version: '3.3'
 services:
 
+  front:
+    container_name: "front"
+    image: front:latest
+    depends_on:
+      - API
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - net
+    volumes:
+      -  /etc/letsencrypt:/etc/letsencrypt
+
   API:
     image: bootdocker:staging
+    container_name: "back"
     ports:
       - "8080:8080"
     depends_on:
@@ -16,7 +30,7 @@ services:
       - AWS_REGION=local
       - ENVIRONMENT=local
     networks:
-      - mynet
+      - net
 
   db:
     image: postgres:latest
@@ -30,13 +44,14 @@ services:
     ports:
       - "5632:5432"
     healthcheck:
-        timeout: 45s
-        interval: 10s
-        retries: 10
-    restart: always
+      timeout: 45s
+      interval: 10s
+      retries: 10
     networks:
-      - mynet
+      - net
 
 networks:
-  mynet:
+  net:
     driver: bridge
+
+

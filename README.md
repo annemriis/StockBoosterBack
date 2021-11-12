@@ -51,66 +51,16 @@
 - run `sudo apt install default-jre && apt install default-jdk`
 - verify that java is installed `javac -version` output should be `javac 11.0.11`
 
-## Define backend as Linux service
- - go to `cd /etc/systemd/system/`
- - `sudo touch stocks.service`
- - copy following code to stocks.service (`sudo nano stocks.service`)
-
-```bash
-[Unit]
-Description=stocks service
-After=network.target
-
-[Service] 
-Type=simple
-User=gitlab-runner
-WorkingDirectory=/home/gitlab-runner/api-deployment
-ExecStart=/usr/bin/java -jar ito0302-2021-back-end-0.0.1.jar
-Restart=on-abort
-
-[Install]
-WantedBy=multi-user.target
-```
-
- - reload configurations with `sudo systemctl daemon-reload`
- - enable process with `sudo systemctl enable stocks`
- - service must be restarted with command `sudo service stocks restart`
-
 
 ## Allow GitLab runner to restart backend service
- - as Ubuntu user type `sudo visudo`
- - add the following line to the end of the file `gitlab-runner ALL = NOPASSWD: /usr/sbin/service stocks *`
+ - as Ubuntu user type `sudo EDITOR=vim visudo`
+ - add these to the end of the file
+ - to inset type -> :i
+ - gitlab-runner ALL = NOPASSWD: /usr/sbin/serivce docker *
+   gitlab-runner ALL = NOPASSWD: /usr/sbin/serivce docker-compose *
+   gitlab-runner ALL = (ALL) NOPASSWD: ALL
+ - to quit -> :wq
 
 
-## Nginx and backend proxy
 
- - Go to `/etc/nginx/sites-enabled/` and add the following line to the `default` file:
-```bash
-location /api/ {  
-    proxy_pass   http://localhost:8080;  
-}
-```
- - `sudo service nginx restart`
- - Nginx `default` file looks like this:
-```bash
-server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
 
-        root /var/www/front-deployment;
-
-        server_name _;
-
-        location /api/ {
-             proxy_pass   http://localhost:8080;
-        }
-
-        location / {
-             root /var/www/front-deployment/iti0302-front-end/;
-             index index.html index.htm;
-             if (!-e $request_filename){
-                 rewrite ^(.*)$ /index.html break;
-             }
-        }
-}
-```

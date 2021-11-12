@@ -20,6 +20,8 @@ build stocks:
   tags:
     - stocks
   script:
+    -  chmod +x scripts/clearDocker.sh
+    - ./scripts/clearDocker.sh
     -  chmod +x gradlew
     - ./gradlew wrapper
     - ./gradlew assemble
@@ -37,7 +39,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
-      - 44-docker-in-server
+      - 45-back-end-production-configuration-2
       - main # only branch to be deployed
   tags:
     - stocks
