@@ -18,14 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DatabaseTests {
 
     private final UsersRepository usersRepository;
-    private final UserBuilder userBuilder;
 
 
 
     @Autowired
     public DatabaseTests(@Lazy UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
-        this.userBuilder = new UserBuilder();
     }
 
 
