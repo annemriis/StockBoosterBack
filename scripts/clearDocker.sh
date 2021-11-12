@@ -1,6 +1,6 @@
 #!/bin/bash
-docker system prune -y
+docker system prune -f
 docker rm -f "front"
 docker rm -f "back"
 docker rm -f "postgres"
-docker network rm net
+docker network rm bridge
