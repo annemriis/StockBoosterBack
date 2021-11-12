@@ -1,20 +1,18 @@
 package com.example.back.ito03022021backend.services.api;
 
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
+import com.example.back.ito03022021backend.StockUnitListBuilder;
 import com.example.back.ito03022021backend.dto.StockDto;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class StockCalculationsServiceTest {
@@ -33,26 +31,16 @@ public class StockCalculationsServiceTest {
 
     }
 
-    public JSONArray getFile(String path) throws FileNotFoundException, JSONException {
-        File myObj = new File(path);
-        Scanner myReader = new Scanner(myObj);
-        String data = "";
-        while (myReader.hasNextLine()) {
-            data = myReader.nextLine();
-            System.out.println(data);
-        }
-        myReader.close();
-        return new JSONArray(data);
-    }
-
     @Test
     void testStockCalculationsOnAAPL() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-
-        executorService.execute(new Runnable() {
-            public void run() {
-
-                List<StockUnit> stockUnits = stockService.getStockDaily("AAPL");
+        StockService stockService = Mockito.mock(StockService.class);
+                List<StockUnit> stockUnits = null;
+                try {
+                    stockUnits = StockUnitListBuilder.readFromFile("AAPL_get_daily");
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                when(stockService.getStockDailyWithTimePeriodOneMonth("AAPL")).thenReturn(stockUnits);
                 Optional<StockDto> dto = stockSendingService.convertToStockDto("AAPL", stockUnits);
                 List<String> stockDateInfo = new LinkedList<>();
                 List<Double> stockCloseInfo = new LinkedList<>();
@@ -83,21 +71,19 @@ public class StockCalculationsServiceTest {
 
                 long avgVolume = stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly);
                 assertEquals(avgVolume, stockDto.getAverageVolumeMonthly());
-            }
-        });
-
-        executorService.shutdown();
     }
 
     @Test
     void testStockCalculationsOnGOOG() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-
-        executorService.execute(new Runnable() {
-            public void run() {
-
-                List<StockUnit> stockUnits = stockService.getStockDaily("GOOG");
-                Optional<StockDto> dto = stockSendingService.convertToStockDto("GOOG", stockUnits);
+        StockService stockService = Mockito.mock(StockService.class);
+        List<StockUnit> stockUnits = null;
+        try {
+            stockUnits = StockUnitListBuilder.readFromFile("GOOG_get_daily");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        when(stockService.getStockDailyWithTimePeriodOneMonth("GOOG")).thenReturn(stockUnits);
+        Optional<StockDto> dto = stockSendingService.convertToStockDto("GOOG", stockUnits);
                 List<String> stockDateInfo = new LinkedList<>();
                 List<Double> stockCloseInfo = new LinkedList<>();
                 List<Long> stockVolumesMonthly = new ArrayList<>();
@@ -119,8 +105,4 @@ public class StockCalculationsServiceTest {
                 long avgVolume = stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly);
                 assertEquals(avgVolume, stockDto.getAverageVolumeMonthly());
             }
-        });
-
-        executorService.shutdown();
-    }
 }

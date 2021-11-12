@@ -1,50 +1,48 @@
 package com.example.back.ito03022021backend.dto;
 
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
-import com.example.back.ito03022021backend.contorllers.ApiController;
+import com.example.back.ito03022021backend.StockUnitListBuilder;
 import com.example.back.ito03022021backend.services.api.StockCalculations;
 import com.example.back.ito03022021backend.services.api.StockSendingService;
 import com.example.back.ito03022021backend.services.api.StockService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.IOException;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class StockDtoTest {
 
     private StockSendingService stockSendingService;
-    private StockService stockService;
     private StockCalculations stockCalculations;
 
     @Autowired
     public StockDtoTest(
-            ApiController apiController,
-            StockDtoBuilder stockDtoBuilder,
             StockSendingService stockSendingService,
-            StockService stockService,
             StockCalculations stockCalculations
             ) {
         this.stockSendingService = stockSendingService;
-        this.stockService = stockService;
         this.stockCalculations = stockCalculations;
     }
 
     @Test
-    public void testStockDtoOnAAPLStock() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-
-        executorService.execute(new Runnable() {
-            public void run() {
-
+    public void testStockDtoOnAAPLStock() throws IOException {
+                StockService stockService = Mockito.mock(StockService.class);
+                List<StockUnit> AAPLGetDaily = null;
+                try {
+                    AAPLGetDaily = StockUnitListBuilder.readFromFile("AAPL_get_daily");
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println("Stock");
+                System.out.println(AAPLGetDaily);
+                when(stockService.getStockDaily("AAPL")).thenReturn(AAPLGetDaily);
                 List<StockUnit> stockUnits = stockService.getStockDaily("AAPL");
                 // Stock service makes StockDto.
                 Optional<StockDto> stockDtoOptional = stockSendingService.convertToStockDto("AAPL", stockUnits);
@@ -84,7 +82,7 @@ public class StockDtoTest {
                         .withSymbol("AAPL")
                         .withAverageMonthlyVolume(stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly))
                         .withAverageMonthlyPrice(stockCalculations.getMonthlyAveragePrice(stockCloseInfo))
-                        .withDailyPriceChange(percentageChange)
+                        .withDailyPercentageChange(percentageChange)
                         .withDailyPriceChange(priceChange)
                         .buildStockDto();
 
@@ -101,10 +99,5 @@ public class StockDtoTest {
                     assertEquals(stockDto.getStockDateInfo(), stockDtoManual.getStockDateInfo());
                     assertEquals(stockDto.getDailyPercentageChange(), stockDtoManual.getDailyPercentageChange());
                     assertEquals(stockDto.getDailyPriceChange(), stockDtoManual.getDailyPriceChange());
-
-            }
-        });
-
-        executorService.shutdown();
     }
 }
