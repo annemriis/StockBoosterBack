@@ -20,6 +20,8 @@ build stocks:
   tags:
     - stocks
   script:
+    -  chmod +x scripts/clearDocker.sh
+    - ./scripts/clearDocker.sh
     -  chmod +x gradlew
     - ./gradlew wrapper
     - ./gradlew assemble
