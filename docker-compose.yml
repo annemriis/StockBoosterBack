@@ -22,7 +22,7 @@ services:
     image: postgres:latest
     container_name: "postgres"
     environment:
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=$POSTGRESQL_USER
       - POSTGRES_PASSWORD=root
       - POSTGRES_ROOT_PASSWORD=postgres
 

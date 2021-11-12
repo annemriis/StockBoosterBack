@@ -37,6 +37,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
+      - 45-back-end-production-configuration-2
       - 44-docker-in-server
       - main # only branch to be deployed
   tags:
