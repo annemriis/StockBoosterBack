@@ -37,7 +37,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
-      - main # only branch to be deployed
+      - 45-back-end-production-configuration-2
   tags:
     - stocks
   script:
