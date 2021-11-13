@@ -39,7 +39,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
-      - 61-fix-tests
+      - 62-configuration
       - main # only branch to be deployed
   tags:
     - stocks
