@@ -28,13 +28,17 @@ import static java.lang.Thread.sleep;
 @EnableScheduling
 public class InitialiseStockDatabase {
 
-    private final ApiService apiService = new ApiService();
-    private final StockService stockService = new StockService(apiService);
-    private final StockCalculations stockCalculations = new StockCalculations();
-    private StockSendingService stockSendingService = new StockSendingService(stockService, stockCalculations);
+    private StockSendingService stockSendingService;
 
     @Autowired
     private StockRepository stockRepository;
+
+    @Autowired
+    public InitialiseStockDatabase(ApiService apiService) {
+        StockService stockService = new StockService(apiService);
+        StockCalculations stockCalculations = new StockCalculations();
+        this.stockSendingService = new StockSendingService(stockService, stockCalculations);
+    }
 
     public void initialiseStockDatabase(StockRepository repository, String contents) {
         List<String> symbols = Arrays.asList(contents.split(", "));
