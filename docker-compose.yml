@@ -30,6 +30,7 @@ services:
       - AWS_REGION=local
       - ENVIRONMENT=local
       - API_KEY=${API_KEY}
+      - DATASOURCE_USERNAME={$DATASOURCE_USERNAME}
     networks:
       - net
 
