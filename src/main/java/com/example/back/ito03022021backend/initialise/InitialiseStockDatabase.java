@@ -31,7 +31,7 @@ public class InitialiseStockDatabase {
     private final ApiService apiService = new ApiService();
     private final StockService stockService = new StockService(apiService);
     private final StockCalculations stockCalculations = new StockCalculations();
-    private final StockSendingService stockSendingService = new StockSendingService(stockService, stockCalculations);
+    private StockSendingService stockSendingService = new StockSendingService(stockService, stockCalculations);
 
     @Autowired
     private StockRepository stockRepository;
@@ -74,7 +74,7 @@ public class InitialiseStockDatabase {
         }
     }
 
-    private StockDto getStockDto(String symbol) {
+    public StockDto getStockDto(String symbol) {
         Optional<StockDto> stockDtoOptional = stockSendingService.getStockDaily(symbol);
         return stockDtoOptional.orElseGet(StockDto::new);
     }
@@ -90,5 +90,13 @@ public class InitialiseStockDatabase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Method is for testing.
+     * @param stockSendingService StockSendingService
+     */
+    public void setStockSendingService(StockSendingService stockSendingService) {
+        this.stockSendingService = stockSendingService;
     }
 }

@@ -1,20 +1,18 @@
 package com.example.back.ito03022021backend.services.api;
 
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
+import com.example.back.ito03022021backend.StockUnitListBuilder;
 import com.example.back.ito03022021backend.dto.StockDto;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class StockCalculationsServiceTest {
@@ -24,103 +22,85 @@ public class StockCalculationsServiceTest {
     StockService stockService;
 
     @Autowired
-    public StockCalculationsServiceTest(StockService stockService
-            , StockSendingService stockSendingService
-            , StockCalculations stockCalculations) {
+    public StockCalculationsServiceTest(StockService stockService, StockSendingService stockSendingService,
+                                        StockCalculations stockCalculations) {
         this.stockCalculations = stockCalculations;
         this.stockSendingService = stockSendingService;
         this.stockService = stockService;
 
     }
 
-    public JSONArray getFile(String path) throws FileNotFoundException, JSONException {
-        File myObj = new File(path);
-        Scanner myReader = new Scanner(myObj);
-        String data = "";
-        while (myReader.hasNextLine()) {
-            data = myReader.nextLine();
-            System.out.println(data);
-        }
-        myReader.close();
-        return new JSONArray(data);
-    }
-
     @Test
     void testStockCalculationsOnAAPL() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        StockService stockService = Mockito.mock(StockService.class);
+        List<StockUnit> stockUnits = null;
+        try {
+            stockUnits = StockUnitListBuilder.readFromFile("AAPL_get_daily");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        when(stockService.getStockDailyWithTimePeriodOneMonth("AAPL")).thenReturn(stockUnits);
+        Optional<StockDto> dto = stockSendingService.convertToStockDto("AAPL", stockUnits);
+        List<String> stockDateInfo = new LinkedList<>();
+        List<Double> stockCloseInfo = new LinkedList<>();
+        List<Long> stockVolumesMonthly = new ArrayList<>();
+        Double close = stockUnits.get(0).getClose();
+        Double prevClose = stockUnits.get(1).getClose();
+        for (int i = 0; i < stockUnits.size(); i++) {
+            StockUnit stockUnit = stockUnits.get(i);
+            stockCloseInfo.add(stockUnit.getClose());
+            stockDateInfo.add(stockUnit.getDate());
+            stockVolumesMonthly.add(stockUnit.getVolume());
+        }
 
-        executorService.execute(new Runnable() {
-            public void run() {
+        StockDto stockDto = new StockDto();
+        if (dto.isPresent()) {
+            stockDto = dto.get();
+        }
 
-                List<StockUnit> stockUnits = stockService.getStockDaily("AAPL");
-                Optional<StockDto> dto = stockSendingService.convertToStockDto("AAPL", stockUnits);
-                List<String> stockDateInfo = new LinkedList<>();
-                List<Double> stockCloseInfo = new LinkedList<>();
-                List<Long> stockVolumesMonthly = new ArrayList<>();
-                Double close = stockUnits.get(0).getClose();
-                Double prevClose = stockUnits.get(1).getClose();
-                for (int i = 0; i < stockUnits.size(); i++) {
-                    StockUnit stockUnit = stockUnits.get(i);
-                    stockCloseInfo.add(stockUnit.getClose());
-                    stockDateInfo.add(stockUnit.getDate());
-                    stockVolumesMonthly.add(stockUnit.getVolume());
-                }
+        Double percentageChange = stockCalculations.getDailyPercentageChange(close, prevClose);
+        assertEquals(stockDto.getDailyPercentageChange(), percentageChange);
 
-                StockDto stockDto = new StockDto();
-                if (dto.isPresent()) {
-                    stockDto = dto.get();
-                }
+        Double priceChange = stockCalculations.getDailyPriceChange(close, prevClose);
+        assertEquals(stockDto.getDailyPriceChange(), priceChange);
 
-                Double percentageChange = stockCalculations.getDailyPercentageChange(close, prevClose);
-                assertEquals(stockDto.getDailyPercentageChange(), percentageChange);
+        double avgPrice = stockCalculations.getMonthlyAveragePrice(stockCloseInfo);
+        assertEquals(avgPrice, stockDto.getAveragePriceMonthly());
 
-
-                Double priceChange = stockCalculations.getDailyPriceChange(close, prevClose);
-                assertEquals(stockDto.getDailyPriceChange(), priceChange);
-
-                double avgPrice = stockCalculations.getMonthlyAveragePrice(stockCloseInfo);
-                assertEquals(avgPrice, stockDto.getAveragePriceMonthly());
-
-                long avgVolume = stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly);
-                assertEquals(avgVolume, stockDto.getAverageVolumeMonthly());
-            }
-        });
-
-        executorService.shutdown();
+        long avgVolume = stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly);
+        assertEquals(avgVolume, stockDto.getAverageVolumeMonthly());
     }
 
     @Test
     void testStockCalculationsOnGOOG() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        StockService stockService = Mockito.mock(StockService.class);
+        List<StockUnit> stockUnits = null;
+        try {
+            stockUnits = StockUnitListBuilder.readFromFile("GOOG_get_daily");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        when(stockService.getStockDailyWithTimePeriodOneMonth("GOOG")).thenReturn(stockUnits);
+        Optional<StockDto> dto = stockSendingService.convertToStockDto("GOOG", stockUnits);
+        List<String> stockDateInfo = new LinkedList<>();
+        List<Double> stockCloseInfo = new LinkedList<>();
+        List<Long> stockVolumesMonthly = new ArrayList<>();
+        for (int i = 0; i < stockUnits.size(); i++) {
+            StockUnit stockUnit = stockUnits.get(i);
+            stockCloseInfo.add(stockUnit.getClose());
+            stockDateInfo.add(stockUnit.getDate());
+            stockVolumesMonthly.add(stockUnit.getVolume());
+        }
 
-        executorService.execute(new Runnable() {
-            public void run() {
+        StockDto stockDto = new StockDto();
+        if (dto.isPresent()) {
+            stockDto = dto.get();
+        }
 
-                List<StockUnit> stockUnits = stockService.getStockDaily("GOOG");
-                Optional<StockDto> dto = stockSendingService.convertToStockDto("GOOG", stockUnits);
-                List<String> stockDateInfo = new LinkedList<>();
-                List<Double> stockCloseInfo = new LinkedList<>();
-                List<Long> stockVolumesMonthly = new ArrayList<>();
-                for (int i = 0; i < stockUnits.size(); i++) {
-                    StockUnit stockUnit = stockUnits.get(i);
-                    stockCloseInfo.add(stockUnit.getClose());
-                    stockDateInfo.add(stockUnit.getDate());
-                    stockVolumesMonthly.add(stockUnit.getVolume());
-                }
+        double avgPrice = stockCalculations.getMonthlyAveragePrice(stockCloseInfo);
+        assertEquals(avgPrice, stockDto.getAveragePriceMonthly());
 
-                StockDto stockDto = new StockDto();
-                if (dto.isPresent()) {
-                    stockDto = dto.get();
-                }
-
-                double avgPrice = stockCalculations.getMonthlyAveragePrice(stockCloseInfo);
-                assertEquals(avgPrice, stockDto.getAveragePriceMonthly());
-
-                long avgVolume = stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly);
-                assertEquals(avgVolume, stockDto.getAverageVolumeMonthly());
-            }
-        });
-
-        executorService.shutdown();
+        long avgVolume = stockCalculations.getMonthlyAverageTradingVolume(stockVolumesMonthly);
+        assertEquals(avgVolume, stockDto.getAverageVolumeMonthly());
     }
 }
