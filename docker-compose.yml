@@ -23,14 +23,15 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_USERNAME={$DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD={$DATASOURCE_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_PROFILES_ACTIVE=local
       - AWS_REGION=local
       - ENVIRONMENT=local
       - API_KEY=${API_KEY}
       - DATASOURCE_USERNAME={$DATASOURCE_USERNAME}
+      - DATASOURCE_PASSWORD={$DATASOURCE_PASSWORD}
     networks:
       - net
 
