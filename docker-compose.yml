@@ -29,6 +29,7 @@ services:
       - SPRING_PROFILES_ACTIVE=local
       - AWS_REGION=local
       - ENVIRONMENT=local
+      - API_KEY=${API_KEY}
     networks:
       - net
 
