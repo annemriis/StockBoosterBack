@@ -6,6 +6,7 @@ import com.example.back.ito03022021backend.dto.StockDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class StockSendingServiceTest {
 
     private final ApiService apiService = new ApiService();
