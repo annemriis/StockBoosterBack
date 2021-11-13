@@ -39,7 +39,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
-      - 45-back-end-production-configuration-2
+      - 61-fix-tests
       - main # only branch to be deployed
   tags:
     - stocks
