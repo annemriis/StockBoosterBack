@@ -3,6 +3,7 @@ package com.example.back.ito03022021backend.initialise;
 import com.example.back.ito03022021backend.dto.StockDto;
 import com.example.back.ito03022021backend.dto.StockDtoBuilder;
 import com.example.back.ito03022021backend.repositories.StockRepository;
+import com.example.back.ito03022021backend.services.api.ApiService;
 import com.example.back.ito03022021backend.services.api.StockSendingService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,7 +33,9 @@ public class InitialiseStockDatabaseTest {
                 .buildStockDto();
         when(stockSendingService.getStockDaily("AAPL")).thenReturn(Optional.of(AAPLStockDto));
         List<String> symbols = List.of("AAPL", "GOOG", "MMM", "ABT", "ABBV");
-        InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase();
+        ApiService apiService = new ApiService();
+        apiService.initialiseApiService(System.getProperty("api.key"));
+        InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase(apiService);
         initialiseStockDatabase.setStockSendingService(stockSendingService);
 
         initialiseStockDatabase.addStocksToDatabase(symbols, stockRepository);
@@ -61,7 +64,9 @@ public class InitialiseStockDatabaseTest {
         when(stockSendingService.getStockDaily("GOOG")).thenReturn(Optional.of(GOOGStockDto));
         String contents = "AAPL, GOOG, MMM, ABT, ABBV";
 
-        InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase();
+        ApiService apiService = new ApiService();
+        apiService.initialiseApiService(System.getProperty("api.key"));
+        InitialiseStockDatabase initialiseStockDatabase = new InitialiseStockDatabase(apiService);
         initialiseStockDatabase.setStockSendingService(stockSendingService);
 
         initialiseStockDatabase.initialiseStockDatabase(stockRepository, contents);

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public final class ApiService {
 
-    private final AlphaVantage alphaVantage;
+    private AlphaVantage alphaVantage = AlphaVantage.api();
 
 
     /**
@@ -17,9 +17,10 @@ public final class ApiService {
      The time on api needs to be set by calling specific methods.
      */
         // https://github.com/crazzyghost/alphavantage-java
-    public ApiService() {
+    public void initialiseApiService(String apiKey) {
+        // QL2P2SF7O5SU8LD3
         Config cfg = Config.builder()
-                .key("QL2P2SF7O5SU8LD3")
+                .key(apiKey)
                 .timeOut(10)
                 .build();
         this.alphaVantage = AlphaVantage.api();
