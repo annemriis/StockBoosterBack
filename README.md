@@ -23,7 +23,6 @@
           - `docker-compose up -d` : for starting all containers
 
 ## How to run tests
-- Run `docker-compose up -d db`
 - Select test module and run tests with coverage
 - Because we are using an external API and tests have to run on different threads and database has to be initilised, running test takes time (approximately 5 minutes to run all tests).
 
