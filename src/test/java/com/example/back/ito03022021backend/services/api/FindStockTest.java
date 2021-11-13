@@ -7,6 +7,8 @@ import com.example.back.ito03022021backend.model.Stock;
 import com.example.back.ito03022021backend.repositories.StockRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
+@ActiveProfiles("test")
 public class FindStockTest {
 
     @Test

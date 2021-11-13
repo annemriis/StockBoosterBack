@@ -2,7 +2,7 @@ image: gradle:jdk11
 
 stages:
   - build
-  # - test
+  - test
   - deploy
 
 before_script:
@@ -28,18 +28,18 @@ build stocks:
     - docker build -t bootdocker:staging .
 
 
-#test heroes:
-#  stage: test
-#  tags:
-#    - stocks
-#  script:
-#    - ./gradlew check
+test stocks:
+  stage: test
+  tags:
+    - stocks
+  script:
+    - ./gradlew check
 
 deploy stocks:
   stage: deploy
   only:
     refs:
-      - 62-configuration
+      - 63-ci-cd-test-2
       - main # only branch to be deployed
   tags:
     - stocks

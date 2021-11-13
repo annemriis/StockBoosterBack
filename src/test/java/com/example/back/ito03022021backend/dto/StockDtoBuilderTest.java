@@ -2,6 +2,7 @@ package com.example.back.ito03022021backend.dto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @WebAppConfiguration
+@ActiveProfiles("test")
 public class StockDtoBuilderTest {
 
     @Test
