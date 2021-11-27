@@ -20,8 +20,6 @@ build stocks:
   tags:
     - stocks
   script:
-    -  chmod +x scripts/clearDocker.sh
-    - ./scripts/clearDocker.sh
     -  chmod +x gradlew
     - ./gradlew wrapper
     - ./gradlew assemble
@@ -39,11 +37,13 @@ deploy stocks:
   stage: deploy
   only:
     refs:
-      - 63-ci-cd-test-2
+      - 64-fix-pipeline-and-try-logging
       - main # only branch to be deployed
   tags:
     - stocks
   script:
+    - chmod +x scripts/clearDocker.sh
+    - ./scripts/clearDocker.sh
     - docker-compose up -d
 
 
