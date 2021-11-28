@@ -1,12 +1,11 @@
 package com.example.back.ito03022021backend.contorllers;
 
 
-import com.example.back.ito03022021backend.builders.UserBuilder;
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
+import com.example.back.ito03022021backend.security.UserUtil;
 import com.example.back.ito03022021backend.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,4 +38,21 @@ public class UserController {
     public User getUserById(@PathVariable long id) {
         return repository.findUsersById(id);
     }
+
+
+    @GetMapping("me")
+    public Object me() {
+        return UserUtil.getLoggedInUser();
+    }
+
+    @GetMapping("admin")
+    public String admin() {
+        return "admin";
+    }
+
+    @GetMapping("user")
+    public String user() {
+        return "user";
+    }
+
 }
