@@ -11,6 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.example.back.ito03022021backend.security.ApplicationRoles.ADMIN;
+import static com.example.back.ito03022021backend.security.ApplicationRoles.USER;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -35,11 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("user")
                 .password(passwordEncoder().encode("user")) // Spring Security 5 requires specifying the password storage format
-                .authorities("ROLE USER")
+                .authorities(USER)
                 .and()
                 .withUser("admin")
                 .password(passwordEncoder().encode("admin")) // Spring Security 5 requires specifying the password storage format
-                .authorities("ROLE USER", "ROLE ADMIN");
+                .authorities(USER, ADMIN);
     }
 
     @Bean
