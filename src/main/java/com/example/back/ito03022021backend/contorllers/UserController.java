@@ -3,11 +3,13 @@ package com.example.back.ito03022021backend.contorllers;
 
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
+import com.example.back.ito03022021backend.security.ApplicationRoles;
 import com.example.back.ito03022021backend.security.UserUtil;
 import com.example.back.ito03022021backend.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(path = "/users")
@@ -45,11 +47,13 @@ public class UserController {
         return UserUtil.getLoggedInUser();
     }
 
+    @Secured(ApplicationRoles.ADMIN)
     @GetMapping("admin")
     public String admin() {
         return "admin";
     }
 
+    @Secured(ApplicationRoles.USER)
     @GetMapping("user")
     public String user() {
         return "user";
