@@ -35,7 +35,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("user")
                 .password(passwordEncoder().encode("user")) // Spring Security 5 requires specifying the password storage format
-                .authorities("ROLE USER");
+                .authorities("ROLE USER")
+                .and()
+                .withUser("admin")
+                .password(passwordEncoder().encode("admin")) // Spring Security 5 requires specifying the password storage format
+                .authorities("ROLE USER", "ROLE ADMIN");
     }
 
     @Bean
