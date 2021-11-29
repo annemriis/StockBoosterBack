@@ -20,6 +20,11 @@ public class JwtTokenProvider {
         this.jwtConfig = jwtConfig;
     }
 
+
+    public boolean isValid(String token, String user) {
+        return getUsernameFormToken(token).equals(user) && !hasExpired(token);
+    }
+
     public String generateToken(String subject) {
         return Jwts.builder()
                 .setSubject(subject)
@@ -30,7 +35,22 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String getUsernameFormToken(String token) {
+            return Jwts.parser()
+                    .setSigningKey(jwtConfig.getSecret())
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+    }
 
+    public boolean hasExpired(String token) {
+        Date date =  Jwts.parser()
+                .setSigningKey(jwtConfig.getSecret())
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration();
+        return date.before(new Date());
+    }
 
 
     public static void main(String[] args) {
