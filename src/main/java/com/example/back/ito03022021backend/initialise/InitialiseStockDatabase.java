@@ -6,6 +6,7 @@ import com.example.back.ito03022021backend.model.Stock;
 import com.example.back.ito03022021backend.repositories.StockRepository;
 import com.example.back.ito03022021backend.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -18,6 +19,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -32,6 +34,9 @@ public class InitialiseStockDatabase {
 
     @Autowired
     private StockRepository stockRepository;
+
+    @Value("${api.time}")
+    private Integer time;
 
     @Autowired
     public InitialiseStockDatabase(ApiService apiService) {

@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 @EntityScan
-@SpringBootApplication
+@SpringBootApplication()
 public class Ito03022021BackEndApplication {
 
     public static void main(String[] args) {
