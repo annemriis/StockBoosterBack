@@ -1,5 +1,7 @@
 package com.example.back.ito03022021backend.security;
 
+import com.example.back.ito03022021backend.jwt.JwtRequestFilter;
+import com.example.back.ito03022021backend.jwt.RestAuthenticationEntryPoint;
 import com.example.back.ito03022021backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.example.back.ito03022021backend.security.ApplicationRoles.ADMIN;
 import static com.example.back.ito03022021backend.security.ApplicationRoles.USER;
@@ -21,14 +24,21 @@ import static com.example.back.ito03022021backend.security.ApplicationRoles.USER
 @EnableGlobalMethodSecurity(securedEnabled = true) // secureEnabled make spring use @Secured
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private UserConfig userConfig;
+    private JwtRequestFilter jwtRequestFilter;
+    private RestAuthenticationEntryPoint authenticationEntryPoint;
+
+    @Autowired
+    public SecurityConfiguration(UserConfig userConfig, JwtRequestFilter jwtRequestFilter, RestAuthenticationEntryPoint authenticationEntryPoint) {
+        this.userConfig = userConfig;
+        this.jwtRequestFilter = jwtRequestFilter;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic()
-                .and()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 //.antMatchers("/user").hasAnyRole("USER")
@@ -39,7 +49,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable()
-                .headers().httpStrictTransportSecurity().disable();
+                .headers().httpStrictTransportSecurity().disable()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
     }
 
     @Autowired
