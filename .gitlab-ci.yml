@@ -37,6 +37,7 @@ deploy stocks:
   stage: deploy
   only:
     refs:
+      - 65-add-security-to-spring-and-start-developing-user-login
       - 64-fix-pipeline-and-try-logging
       - main # only branch to be deployed
   tags:
