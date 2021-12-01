@@ -2,6 +2,7 @@ package com.example.back.ito03022021backend.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.ParameterResolutionDelegate;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.annotation.AccessType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+@Lazy
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -28,6 +30,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtTokenProvider jwtTokenProvider;
     private UserDetailsService userDetails;
 
+    @Lazy
     @Autowired
     public JwtRequestFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetails) {
         this.jwtTokenProvider = jwtTokenProvider;
