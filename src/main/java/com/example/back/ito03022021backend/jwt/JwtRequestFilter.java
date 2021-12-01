@@ -44,7 +44,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (token.isEmpty()) {
             filterChain.doFilter(request, response);
             return;
-
         }
         // Get username out of token
         String username = getUsername(token);
@@ -52,23 +51,24 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         //Is token valid??
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             // get spring context by spring user
             UserDetails userDetails =  this.userDetails.loadUserByUsername(username);
             if (jwtTokenProvider.isValid(token.get(), userDetails.getUsername())) {
                 // If token is valid, tell security that everything is ok
-                UsernamePasswordAuthenticationToken authenticationToken = buildAuthToken(userDetails);
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                UsernamePasswordAuthenticationToken authenticationToken = buildAuthToken(userDetails, request);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
         filterChain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken buildAuthToken(UserDetails userDetails) {
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    private UsernamePasswordAuthenticationToken buildAuthToken(UserDetails userDetails, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        return authenticationToken;
     }
 
     private String getUsername(Optional<String> token) {
@@ -89,4 +89,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         return Optional.of(header.substring(BEARER_.length()));
     }
+
+
+
 }
