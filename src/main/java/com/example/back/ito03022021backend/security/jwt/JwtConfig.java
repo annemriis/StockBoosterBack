@@ -1,4 +1,4 @@
-package com.example.back.ito03022021backend.jwt;
+package com.example.back.ito03022021backend.security.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

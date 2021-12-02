@@ -1,11 +1,13 @@
 package com.example.back.ito03022021backend.contorllers;
 
 
-import com.example.back.ito03022021backend.jwt.JwtTokenProvider;
+import com.example.back.ito03022021backend.security.jwt.JwtTokenProvider;
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
 import com.example.back.ito03022021backend.security.ApplicationRoles;
 import com.example.back.ito03022021backend.security.UserUtil;
+import com.example.back.ito03022021backend.security.users.LoginRequest;
+import com.example.back.ito03022021backend.security.users.LoginResponse;
 import com.example.back.ito03022021backend.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -60,6 +62,11 @@ public class UserController {
     @GetMapping("user")
     public String user() {
         return "user";
+    }
+
+    @PostMapping("login")
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        return userService.login(loginRequest);
     }
 
 }

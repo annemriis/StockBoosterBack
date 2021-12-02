@@ -1,12 +1,12 @@
 package com.example.back.ito03022021backend.security;
 
-import com.example.back.ito03022021backend.jwt.JwtRequestFilter;
-import com.example.back.ito03022021backend.jwt.RestAuthenticationEntryPoint;
-import com.example.back.ito03022021backend.model.User;
+import com.example.back.ito03022021backend.security.jwt.JwtRequestFilter;
+import com.example.back.ito03022021backend.security.jwt.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,12 +37,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.POST ,"/users/login").permitAll()
                 //.antMatchers("/user").hasAnyRole("USER")
                 //.antMatchers("/admin").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
@@ -74,10 +81,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity webSecurity) throws Exception {
+    public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().antMatchers(
 
-                "/v2/api-docs",
+                "/api/**",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/security",
