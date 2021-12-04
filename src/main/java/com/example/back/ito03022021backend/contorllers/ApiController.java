@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping({"/api", "/api2"})
+@RequestMapping({"/api", "/api-test"})
 @RestController
 public class ApiController {
 
