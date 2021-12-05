@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(path = "/users")
+@RequestMapping({"/users", "/users2"})
 @RestController
 public class UserController {
 
