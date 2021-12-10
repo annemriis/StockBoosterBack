@@ -38,14 +38,12 @@ public class ApiController {
      * @param symbol of the stock
      * @return list of stock unit data
      */
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}/test")
     public List<StockUnit> getStockk(@PathVariable String symbol) {
         // Header needs to be attatched to dto so that front-end can get header
         return this.stockService.getStockDaily(symbol);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {
         // Header needs to be attatched to dto so that front-end can get header
@@ -53,13 +51,11 @@ public class ApiController {
         return stockDtoOptional.orElseGet(StockDto::new);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}?time-series=intraday")
     public List<StockUnit> getStockIntraday(@PathVariable String symbol) {
         return this.stockService.getStockIntraday(symbol);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path = "/stock/{symbol}/boost-morale")
     public StockDto getStockWithWorsePerformance(@PathVariable String symbol) {
         Optional<StockDto> stockDtoOptional = this.findStock.findStockWithWorsePerformance(symbol);
