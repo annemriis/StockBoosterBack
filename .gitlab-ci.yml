@@ -38,7 +38,7 @@ deploy stocks:
   only:
     refs:
       - main # only branch to be deployed
-      - 56-to-fix
+      - 55-configuration-class
   tags:
     - stocks
   script:
