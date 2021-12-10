@@ -38,6 +38,7 @@ deploy stocks:
   only:
     refs:
       - main # only branch to be deployed
+      - 56-to-fix
   tags:
     - stocks
   script:

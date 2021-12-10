@@ -21,13 +21,10 @@ public class DatabaseTests {
 
     private final UsersRepository usersRepository;
 
-
-
     @Autowired
     public DatabaseTests(@Lazy UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
-
 
     @Test
     void testAddingUser() {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +48,9 @@ public class StockService {
                 .fetchSync()
                 .getStockUnits();
         if (stockUnits.size() > 0) {
-            String[] stockUnitDate = stockUnits.get(0).getDate().split("-");
-            int day = Integer.parseInt(stockUnitDate[2]);
-            int month = Integer.parseInt(stockUnitDate[1]);
-            int year = Integer.parseInt(stockUnitDate[0]);
-            return filterStockByDateOneMonth(stockUnits, day, month, year);
+            String stockUnitDate = stockUnits.get(0).getDate();
+            LocalDate stockUnitLocalDate = LocalDate.parse(stockUnitDate);
+            return filterStockByDateOneMonth(stockUnits, stockUnitLocalDate);
         }
         return List.of();
     }
@@ -60,23 +59,21 @@ public class StockService {
      * Filter stock units.
      *
      * @param stockUnits list of stock units (List<StockUnit>)
-     * @param day current day (int)
-     * @param month current month (int)
-     * @param year current year (int)
+     * @param currentLocalDate current date (LocalDate)
      * @return List with stock units within the current month.
      */
-    public List<StockUnit> filterStockByDateOneMonth(List<StockUnit> stockUnits, int day, int month, int year) {  // Test.
+    public List<StockUnit> filterStockByDateOneMonth(List<StockUnit> stockUnits, LocalDate currentLocalDate) {  // Test.
         List<StockUnit> filteredStockUnits = new ArrayList<>();
         for (int i = 0; i < stockUnits.size(); i++) {
             StockUnit stockUnit = stockUnits.get(i);
-            String[] stockUnitDate = stockUnit.getDate().split("-");  // Year-Month-Day
-            int stockUnitDay = Integer.parseInt(stockUnitDate[2]);
-            int stockUnitMonth = Integer.parseInt(stockUnitDate[1]);
-            int stockUnitYear = Integer.parseInt(stockUnitDate[0]);
+            String stockUnitDate = stockUnit.getDate();  // Year-Month-Day
+            LocalDate stockUnitLocalDate = LocalDate.parse(stockUnitDate);
             // Filter stock units by date.
-            if ((day - stockUnitDay < 0 && stockUnitMonth == month - 1)  // Date is from the previous month.
-                    || (stockUnitDay <= day && stockUnitMonth == month)  // Current month.
-                    && stockUnitYear == year) {
+            if ((currentLocalDate.getDayOfMonth() - stockUnitLocalDate.getDayOfMonth() < 0
+                    && stockUnitLocalDate.getMonthValue() == currentLocalDate.getMonthValue() - 1)  // Date is from the previous month.
+                    || (stockUnitLocalDate.getDayOfMonth() <= currentLocalDate.getDayOfMonth()
+                    && stockUnitLocalDate.getMonth() == currentLocalDate.getMonth())  // Current month.
+                    && stockUnitLocalDate.getYear() == currentLocalDate.getYear()) {
                 filteredStockUnits.add(stockUnit);
             } else {
                 break;

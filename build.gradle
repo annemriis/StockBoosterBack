@@ -71,3 +71,7 @@ test {
         from("src/test/resources/application-test.properties")
     }
 }
+
+tasks.withType(Test) {
+    maxParallelForks = 1
+}
