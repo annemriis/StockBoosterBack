@@ -21,14 +21,11 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 public class StockDtoTest {
 
-    private StockSendingService stockSendingService;
-    private StockCalculations stockCalculations;
+    private final StockSendingService stockSendingService;
+    private final StockCalculations stockCalculations;
 
     @Autowired
-    public StockDtoTest(
-            StockSendingService stockSendingService,
-            StockCalculations stockCalculations
-            ) {
+    public StockDtoTest(StockSendingService stockSendingService, StockCalculations stockCalculations) {
         this.stockSendingService = stockSendingService;
         this.stockCalculations = stockCalculations;
     }

@@ -42,6 +42,7 @@ public class StockCalculationsServiceTest {
             exception.printStackTrace();
         }
         when(stockService.getStockDailyWithTimePeriodOneMonth("AAPL")).thenReturn(stockUnits);
+        assert stockUnits != null;
         Optional<StockDto> dto = stockSendingService.convertToStockDto("AAPL", stockUnits);
         List<String> stockDateInfo = new LinkedList<>();
         List<Double> stockCloseInfo = new LinkedList<>();
@@ -83,6 +84,7 @@ public class StockCalculationsServiceTest {
             exception.printStackTrace();
         }
         when(stockService.getStockDailyWithTimePeriodOneMonth("GOOG")).thenReturn(stockUnits);
+        assert stockUnits != null;
         Optional<StockDto> dto = stockSendingService.convertToStockDto("GOOG", stockUnits);
         List<String> stockDateInfo = new LinkedList<>();
         List<Double> stockCloseInfo = new LinkedList<>();

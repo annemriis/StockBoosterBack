@@ -5,6 +5,7 @@ import com.example.back.ito03022021backend.StockUnitListBuilder;
 import com.example.back.ito03022021backend.dto.StockDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -19,10 +20,12 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 public class StockSendingServiceTest {
 
-    private final ApiService apiService = new ApiService();
-    private final StockService stockService = new StockService(apiService);
-    private final StockCalculations stockCalculations = new StockCalculations();
-    private final StockSendingService stockSendingService = new StockSendingService(stockService, stockCalculations);
+    private final StockSendingService stockSendingService;
+
+    @Autowired
+    public StockSendingServiceTest(StockSendingService stockSendingService) {
+        this.stockSendingService = stockSendingService;
+    }
 
     @Test
     void convertToStockDtoReturnsStockDto() {

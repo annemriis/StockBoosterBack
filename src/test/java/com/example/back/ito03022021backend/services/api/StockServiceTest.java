@@ -2,6 +2,7 @@ package com.example.back.ito03022021backend.services.api;
 
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -16,8 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 public class StockServiceTest {
 
-    private ApiService apiService = new ApiService();
-    private StockService stockService = new StockService(apiService);
+    private final StockService stockService;
+
+    @Autowired
+    public StockServiceTest(StockService stockService) {
+        this.stockService = stockService;
+    }
 
     @Test
     void filterStockByDateOneMonthFiltersListWithStockUnits() {
