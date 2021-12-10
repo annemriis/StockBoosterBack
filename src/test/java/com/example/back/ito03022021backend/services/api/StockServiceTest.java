@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,12 +31,12 @@ public class StockServiceTest {
 
         // Current date.
         Date date = new Date();
-        String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        int day = Integer.parseInt(modifiedDate.substring(8));
-        int month = Integer.parseInt(modifiedDate.substring(5, 7));
-        int year = Integer.parseInt(modifiedDate.substring(0, 4));
+        LocalDate localDate = LocalDate.now();
+        int day = localDate.getDayOfMonth();
+        int month = localDate.getMonthValue();
+        int year = localDate.getYear();
 
-        List<StockUnit> filteredStockUnits = stockService.filterStockByDateOneMonth(stockUnits, day, month, year);
+        List<StockUnit> filteredStockUnits = stockService.filterStockByDateOneMonth(stockUnits, localDate);
         assertTrue(30 > filteredStockUnits.size());
         assertTrue(20 <= filteredStockUnits.size());
 
