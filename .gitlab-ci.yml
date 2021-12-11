@@ -38,7 +38,7 @@ deploy stocks:
   only:
     refs:
       - main # only branch to be deployed
-      - 55-configuration-class
+      - 67-test
   tags:
     - stocks
   script:

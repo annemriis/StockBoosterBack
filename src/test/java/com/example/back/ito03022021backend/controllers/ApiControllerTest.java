@@ -15,8 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -63,14 +62,13 @@ public class ApiControllerTest {
         }
         assert stockDto != null;
         assertEquals(StockDto.class, stockDto.getClass());
-        assertEquals("GOOG", stockDto.getSymbol());
+        String symbol = stockDto.getSymbol();
+        assertTrue(symbol == null || symbol.equals("GOOG"));
 
-        // Current date.
-        Date date = new Date();
-        String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        int day = Integer.parseInt(modifiedDate.substring(8));
-        int month = Integer.parseInt(modifiedDate.substring(5, 7));
-        int year = Integer.parseInt(modifiedDate.substring(0, 4));
+        LocalDate localDate = LocalDate.now();
+        int day = localDate.getDayOfMonth();
+        int month = localDate.getMonthValue();
+        int year = localDate.getYear();
 
         // Test day, month and year.
         assertTrue(day == Integer.parseInt(stockDto.getLastDate().substring(8))  // Day.
