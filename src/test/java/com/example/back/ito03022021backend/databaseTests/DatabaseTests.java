@@ -42,7 +42,6 @@ public class DatabaseTests {
                 .withPassword("2")
                 .build();
 
-
         usersRepository.saveAndFlush(user1);
         usersRepository.saveAndFlush(user2);
 
@@ -50,7 +49,6 @@ public class DatabaseTests {
 
         // The list size should be 2 since there are 2 entities saved in database
         assertEquals(0, use1.size() % 2);
-
 
         // The first users name is P so the other users name is P, the classes cannot be compared because
         // getting users from the database creates a new class

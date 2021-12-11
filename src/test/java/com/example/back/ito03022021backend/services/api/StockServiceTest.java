@@ -1,17 +1,19 @@
 package com.example.back.ito03022021backend.services.api;
 
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
+import com.example.back.ito03022021backend.StockUnitListBuilder;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -26,29 +28,20 @@ public class StockServiceTest {
 
     @Test
     void filterStockByDateOneMonthFiltersListWithStockUnits() {
-        List<StockUnit> stockUnits = stockService.getStockDaily("TWTR");
-        assertEquals(100, stockUnits.size());
+        StockService stockService = Mockito.mock(StockService.class);
+        List<StockUnit> mockStockUnits = null;
+        try {
+            mockStockUnits = StockUnitListBuilder.readFromFile("AAPL_get_daily");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        when(stockService.getStockDaily("AAPL")).thenReturn(mockStockUnits);
+        List<StockUnit> stockUnits = stockService.getStockDaily("AAPL");
 
-        // Current date.
-        Date date = new Date();
-        LocalDate localDate = LocalDate.now();
-        int day = localDate.getDayOfMonth();
-        int month = localDate.getMonthValue();
-        int year = localDate.getYear();
+        LocalDate localDate = LocalDate.parse("2021-11-12");
 
         List<StockUnit> filteredStockUnits = stockService.filterStockByDateOneMonth(stockUnits, localDate);
         assertTrue(30 > filteredStockUnits.size());
-        assertTrue(20 <= filteredStockUnits.size());
-
-        StockUnit stockUnit = stockUnits.get(0);
-        assertEquals(StockUnit.class, stockUnit.getClass());
-        // Test day, month and year.
-        assertTrue(day == Integer.parseInt(stockUnit.getDate().substring(8))
-                || day - 1 == Integer.parseInt(stockUnit.getDate().substring(8))
-                || day - 2 == Integer.parseInt(stockUnit.getDate().substring(8)));
-        assertTrue(month == Integer.parseInt(stockUnit.getDate().substring(5, 7))
-                || month - 1 == Integer.parseInt(stockUnit.getDate().substring(5, 7)));
-        assertEquals(year, Integer.parseInt(stockUnit.getDate().substring(0, 4)));
     }
 
     @Test
