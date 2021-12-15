@@ -7,6 +7,7 @@ import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
 import com.example.back.ito03022021backend.security.users.LoginRequest;
 import com.example.back.ito03022021backend.security.users.LoginResponse;
+import com.example.back.ito03022021backend.security.users.RegisterRequest;
 import com.example.back.ito03022021backend.security.users.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -23,24 +28,31 @@ public class UserService {
     private final UsersRepository repository;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserService(UsersRepository usersRepository, JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
+    public UserService(UsersRepository usersRepository, JwtTokenProvider jwtTokenProvider,
+                       AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.repository = usersRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity<User> createUser(User newUser) {
-        User user = new UserBuilder()
-                .withName(newUser.getName())
-                .withEmail(newUser.getEmail())
-                .withPassword(newUser.getPassword())
-                .build();
-        User _user = repository.save(user);
-        return new ResponseEntity<>(_user, HttpStatus.CREATED);
-    }
+    public void register(RegisterRequest registerRequest) {
+        // save new user to database
+        if (!(registerRequest.getUsername()).isBlank() && !registerRequest.getPassword().isBlank()) {
+            User user = new UserBuilder()
+                    .withPassword(passwordEncoder.encode(registerRequest.getPassword()))
+                    .withEmail("")
+                    .withName(registerRequest.getUsername())
+                    .build();
+            repository.save(user);
+            }
+        }
+
+
 
     public LoginResponse login(LoginRequest loginRequest) {
         if (!(loginRequest.getUsername()).isBlank() && !loginRequest.getPassword().isBlank()) {

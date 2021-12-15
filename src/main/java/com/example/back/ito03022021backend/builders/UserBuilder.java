@@ -1,6 +1,7 @@
 package com.example.back.ito03022021backend.builders;
 
 import com.example.back.ito03022021backend.model.User;
+import com.example.back.ito03022021backend.security.users.UserRole;
 
 public class UserBuilder {
 
@@ -26,12 +27,12 @@ public class UserBuilder {
         return this;
     }
 
-    // This will cause bugs prolly, need to implement req somewhere
     public User build() {
         User user = new User();
         user.setEmail(this.email);
         user.setName(this.name);
         user.setPassword(this.password);
+        user.setUserRole(UserRole.USER);
         return user;
     }
 

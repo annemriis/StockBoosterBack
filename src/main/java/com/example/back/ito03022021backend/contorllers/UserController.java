@@ -8,9 +8,10 @@ import com.example.back.ito03022021backend.security.ApplicationRoles;
 import com.example.back.ito03022021backend.security.UserUtil;
 import com.example.back.ito03022021backend.security.users.LoginRequest;
 import com.example.back.ito03022021backend.security.users.LoginResponse;
+import com.example.back.ito03022021backend.security.users.RegisterRequest;
 import com.example.back.ito03022021backend.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,10 @@ public class UserController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping(path = "/users", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<User> createUser(@RequestBody User newUser) {
-        return userService.createUser(newUser);
+    @PostMapping(path = "register")
+    public ResponseEntity<Void> registerUser(@RequestBody RegisterRequest request) {
+        userService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(path = "/user/{name}")
@@ -66,7 +67,6 @@ public class UserController {
 
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-        System.out.println("Is logging:" + loginRequest.toString());
         return userService.login(loginRequest);
     }
 
