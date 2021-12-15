@@ -66,6 +66,7 @@ public class UserController {
 
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        System.out.println("Is logging:" + loginRequest.toString());
         return userService.login(loginRequest);
     }
 
