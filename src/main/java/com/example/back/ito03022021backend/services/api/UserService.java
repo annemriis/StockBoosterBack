@@ -1,6 +1,7 @@
 package com.example.back.ito03022021backend.services.api;
 
 import com.example.back.ito03022021backend.builders.UserBuilder;
+import com.example.back.ito03022021backend.security.ApplicationRoles;
 import com.example.back.ito03022021backend.security.jwt.JwtTokenProvider;
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
@@ -47,11 +48,26 @@ public class UserService {
                     loginRequest.getUsername(), loginRequest.getPassword()));
             UserDetails principle = (UserDetails) authentication.getPrincipal();
             String token = jwtTokenProvider.generateToken(principle.getUsername());
-            return new LoginResponse(principle.getUsername(), token, UserRole.USER);
+            return new LoginResponse(principle.getUsername(), token, getRole(principle));
         } else {
             // should be exception
             return null;
         }
+    }
+
+    /**
+     * User can either have user or admin role, this determines which role user has
+     * @param principle of the given user
+     * @return Role of the user
+     */
+    private UserRole getRole(UserDetails principle) {
+        boolean isAdmin = principle.getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals(ApplicationRoles.ADMIN));
+        if (isAdmin) {
+            return UserRole.ADMIN;
+        }
+        return UserRole.USER;
     }
 
 }

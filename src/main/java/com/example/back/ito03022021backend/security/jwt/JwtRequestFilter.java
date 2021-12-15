@@ -37,6 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Get token form request
         Optional<String> token = getToken(request);
+        System.out.println(token);
         if (token.isEmpty()) {
             filterChain.doFilter(request, response);
             return;
