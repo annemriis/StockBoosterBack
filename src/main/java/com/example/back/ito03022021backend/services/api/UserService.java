@@ -47,6 +47,7 @@ public class UserService {
                     .withPassword(passwordEncoder.encode(registerRequest.getPassword()))
                     .withEmail("")
                     .withName(registerRequest.getUsername())
+                    .withUserRole(UserRole.USER)
                     .build();
             repository.save(user);
             }
