@@ -2,6 +2,7 @@ package com.example.back.ito03022021backend.security;
 
 import com.example.back.ito03022021backend.security.jwt.JwtRequestFilter;
 import com.example.back.ito03022021backend.security.jwt.RestAuthenticationEntryPoint;
+import com.example.back.ito03022021backend.services.api.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +30,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserConfig userConfig;
     private JwtRequestFilter jwtRequestFilter;
     private RestAuthenticationEntryPoint authenticationEntryPoint;
+    private MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    public SecurityConfiguration(UserConfig userConfig, JwtRequestFilter jwtRequestFilter, RestAuthenticationEntryPoint authenticationEntryPoint) {
+    public SecurityConfiguration(UserConfig userConfig, JwtRequestFilter jwtRequestFilter,
+                                 RestAuthenticationEntryPoint authenticationEntryPoint, MyUserDetailsService myUserDetailsService) {
         this.userConfig = userConfig;
         this.jwtRequestFilter = jwtRequestFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
+        this.myUserDetailsService = myUserDetailsService;
     }
 
     @Bean
@@ -50,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/login").permitAll()
+                .antMatchers(HttpMethod.POST ,"/users/register").permitAll()
                 //.antMatchers("/user").hasAnyRole("USER")
                 //.antMatchers("/admin").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
@@ -65,14 +70,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.myUserDetailsService);
         auth.inMemoryAuthentication()
-                .withUser(userConfig.getUserName())
-                .password(passwordEncoder().encode(userConfig.getUserPassword())) // Spring Security 5 requires specifying the password storage format
-                .authorities(USER)
-                .and()
-                .withUser(userConfig.getAdminName())
-                .password(passwordEncoder().encode(userConfig.getAdminPassword())) // Spring Security 5 requires specifying the password storage format
-                .authorities(USER, ADMIN);
+                   .withUser(userConfig.getUserName())
+                   .password(passwordEncoder().encode(userConfig.getUserPassword())) // Spring Security 5 requires specifying the password storage format
+                   .authorities(USER)
+                   .and()
+                   .withUser(userConfig.getAdminName())
+                   .password(passwordEncoder().encode(userConfig.getAdminPassword())) // Spring Security 5 requires specifying the password storage format
+                   .authorities(USER, ADMIN);
     }
 
     @Bean

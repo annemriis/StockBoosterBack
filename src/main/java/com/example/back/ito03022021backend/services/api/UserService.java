@@ -5,17 +5,21 @@ import com.example.back.ito03022021backend.security.ApplicationRoles;
 import com.example.back.ito03022021backend.security.jwt.JwtTokenProvider;
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
-import com.example.back.ito03022021backend.security.users.LoginRequest;
-import com.example.back.ito03022021backend.security.users.LoginResponse;
-import com.example.back.ito03022021backend.security.users.UserRole;
+import com.example.back.ito03022021backend.security.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -23,30 +27,44 @@ public class UserService {
     private final UsersRepository repository;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
 
 
     @Autowired
-    public UserService(UsersRepository usersRepository, JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
+    public UserService(UsersRepository usersRepository, JwtTokenProvider jwtTokenProvider,
+                       AuthenticationManager authenticationManager) {
         this.repository = usersRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder();
     }
 
-    public ResponseEntity<User> createUser(User newUser) {
-        User user = new UserBuilder()
-                .withName(newUser.getName())
-                .withEmail(newUser.getEmail())
-                .withPassword(newUser.getPassword())
-                .build();
-        User _user = repository.save(user);
-        return new ResponseEntity<>(_user, HttpStatus.CREATED);
-    }
+    public void register(RegisterRequest registerRequest) {
+        // save new user to database
+        if (!(registerRequest.getUsername()).isBlank() && !registerRequest.getPassword().isBlank()) {
+            User user = new UserBuilder()
+                    .withPassword(passwordEncoder.encode(registerRequest.getPassword()))
+                    .withEmail("")
+                    .withName(registerRequest.getUsername())
+                    .withUserRole(UserRole.USER)
+                    .build();
+            repository.save(user);
+            }
+        }
+
+
 
     public LoginResponse login(LoginRequest loginRequest) {
         if (!(loginRequest.getUsername()).isBlank() && !loginRequest.getPassword().isBlank()) {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsername(), loginRequest.getPassword()));
-            UserDetails principle = (UserDetails) authentication.getPrincipal();
+            MyUser principle = (MyUser) authentication.getPrincipal();
             String token = jwtTokenProvider.generateToken(principle.getUsername());
             return new LoginResponse(principle.getUsername(), token, getRole(principle));
         } else {
