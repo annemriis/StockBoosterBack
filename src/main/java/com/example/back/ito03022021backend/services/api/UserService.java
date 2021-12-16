@@ -5,17 +5,16 @@ import com.example.back.ito03022021backend.security.ApplicationRoles;
 import com.example.back.ito03022021backend.security.jwt.JwtTokenProvider;
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
-import com.example.back.ito03022021backend.security.users.LoginRequest;
-import com.example.back.ito03022021backend.security.users.LoginResponse;
-import com.example.back.ito03022021backend.security.users.RegisterRequest;
-import com.example.back.ito03022021backend.security.users.UserRole;
+import com.example.back.ito03022021backend.security.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +29,19 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
+    public PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
+
 
     @Autowired
     public UserService(UsersRepository usersRepository, JwtTokenProvider jwtTokenProvider,
-                       AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+                       AuthenticationManager authenticationManager) {
         this.repository = usersRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder();
     }
 
     public void register(RegisterRequest registerRequest) {
@@ -57,9 +61,10 @@ public class UserService {
 
     public LoginResponse login(LoginRequest loginRequest) {
         if (!(loginRequest.getUsername()).isBlank() && !loginRequest.getPassword().isBlank()) {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsername(), loginRequest.getPassword()));
-            UserDetails principle = (UserDetails) authentication.getPrincipal();
+            MyUser principle = (MyUser) authentication.getPrincipal();
             String token = jwtTokenProvider.generateToken(principle.getUsername());
             return new LoginResponse(principle.getUsername(), token, getRole(principle));
         } else {

@@ -2,6 +2,7 @@ package com.example.back.ito03022021backend.services.api;
 
 import com.example.back.ito03022021backend.model.User;
 import com.example.back.ito03022021backend.repositories.UsersRepository;
+import com.example.back.ito03022021backend.security.users.MyUser;
 import com.example.back.ito03022021backend.security.users.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,7 +35,7 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         User user = users.get(0);
 
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), toAuthorities(user));
+        return new MyUser(user.getName(), user.getPassword(), toAuthorities(user), user.getUserRole());
     }
 
     private List<SimpleGrantedAuthority> toAuthorities(User user) {
