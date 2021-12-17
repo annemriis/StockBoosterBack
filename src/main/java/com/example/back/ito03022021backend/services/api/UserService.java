@@ -88,4 +88,15 @@ public class UserService {
         return UserRole.USER;
     }
 
+    public void addStockToUser(String symbol, String username) {
+        User user = repository.findUsersByName(username);
+        List<String> stocks = user.getStocks();
+        stocks.add(symbol);
+        repository.updateStocks(stocks, username);
+    }
+
+    public List<String> getUsersStocks(String username) {
+        return repository.findUsersByName(username).getStocks();
+    }
+
 }
