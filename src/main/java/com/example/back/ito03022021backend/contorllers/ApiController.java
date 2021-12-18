@@ -58,7 +58,6 @@ public class ApiController {
         return this.stockService.getStockIntraday(symbol);
     }
 
-    @Secured(ApplicationRoles.USER)
     @GetMapping(path = "/stock/{symbol}/boost-morale")
     public StockDto getStockWithWorsePerformance(@PathVariable String symbol) {
         Optional<StockDto> stockDtoOptional = this.findStock.findStockWithWorsePerformance(symbol);

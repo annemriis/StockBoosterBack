@@ -70,18 +70,6 @@ public class UserController {
         return UserUtil.getLoggedInUser();
     }
 
-    @Secured(ApplicationRoles.ADMIN)
-    @GetMapping("admin")
-    public String admin() {
-        return "admin";
-    }
-
-    @Secured(ApplicationRoles.USER)
-    @GetMapping("user")
-    public String user() {
-        return "user";
-    }
-
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         return userService.login(loginRequest);

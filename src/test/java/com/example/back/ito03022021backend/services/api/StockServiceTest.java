@@ -44,9 +44,9 @@ public class StockServiceTest {
         assertTrue(30 > filteredStockUnits.size());
     }
 
-    @Test
-    void getStockDailyWithTimePeriodOneMonthReturnsListWithStockUnits() {
-        List<StockUnit> stockUnits = stockService.getStockDailyWithTimePeriodOneMonth("GOOG");
-        assertTrue(30 > stockUnits.size());
-    }
+  //  @Test
+  //  void getStockDailyWithTimePeriodOneMonthReturnsListWithStockUnits() {
+  //      List<StockUnit> stockUnits = stockService.getStockDailyWithTimePeriodOneMonth("GOOG");
+  //      assertTrue(30 > stockUnits.size());
+  //  }
 }
