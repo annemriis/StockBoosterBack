@@ -3,11 +3,13 @@ package com.example.back.ito03022021backend.contorllers;
 
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.example.back.ito03022021backend.dto.StockDto;
+import com.example.back.ito03022021backend.security.ApplicationRoles;
 import com.example.back.ito03022021backend.services.api.ApiService;
 import com.example.back.ito03022021backend.services.api.FindStock;
 import com.example.back.ito03022021backend.services.api.StockSendingService;
 import com.example.back.ito03022021backend.services.api.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

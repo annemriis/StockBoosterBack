@@ -71,14 +71,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(this.myUserDetailsService);
-        auth.inMemoryAuthentication()
-                   .withUser(userConfig.getUserName())
-                   .password(passwordEncoder().encode(userConfig.getUserPassword())) // Spring Security 5 requires specifying the password storage format
-                   .authorities(USER)
-                   .and()
-                   .withUser(userConfig.getAdminName())
-                   .password(passwordEncoder().encode(userConfig.getAdminPassword())) // Spring Security 5 requires specifying the password storage format
-                   .authorities(USER, ADMIN);
     }
 
     @Bean
