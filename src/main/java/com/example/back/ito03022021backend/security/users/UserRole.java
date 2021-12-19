@@ -11,7 +11,7 @@ public enum UserRole {
 
      // spring roles must have role prefix, we have desicrbed them in ApplicatonRoles.java
     public String toApplicationRole() {
-        return "ROLE" + this.name();
+        return "ROLE_" + this.name();
     }
 
 

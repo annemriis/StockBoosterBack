@@ -15,12 +15,12 @@ public class ResponseTest {
         LoginResponse loginResponse = new LoginResponse("Mati", "12-rb2-53", UserRole.USER);
         assertEquals("Mati", loginResponse.getUsername());
         assertEquals("12-rb2-53", loginResponse.getToken());
-        assertEquals(UserRole.USER, loginResponse.getUserRole());
+        assertEquals(UserRole.USER, loginResponse.getRole());
         loginResponse.setUsername("Mati2000");
         loginResponse.setToken("13-45");
-        loginResponse.setUserRole(UserRole.ADMIN);
+        loginResponse.setRole(UserRole.ADMIN);
         assertEquals("Mati2000", loginResponse.getUsername());
         assertEquals("13-45", loginResponse.getToken());
-        assertEquals(UserRole.ADMIN, loginResponse.getUserRole());
+        assertEquals(UserRole.ADMIN, loginResponse.getRole());
     }
 }
