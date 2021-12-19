@@ -13,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -56,7 +54,7 @@ public class UserServiceTest {
         loginRequest.setPassword("Mati1234");
         LoginResponse loginResponse = userService.login(loginRequest);
         assertEquals("Mati20", loginResponse.getUsername());
-        assertEquals(UserRole.USER, loginResponse.getUserRole());
+        assertEquals(UserRole.USER, loginResponse.getRole());
     }
 
     @Test

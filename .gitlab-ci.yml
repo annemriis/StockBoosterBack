@@ -38,7 +38,7 @@ deploy stocks:
   only:
     refs:
       - main # only branch to be deployed
-      - 71-security-tests
+      - 72-morale-booster-access-bug
   tags:
     - stocks
   script:

@@ -1,17 +1,16 @@
 package com.example.back.ito03022021backend.security.users;
 
-import com.example.back.ito03022021backend.model.User;
 
 public class LoginResponse {
 
     private String username;
     private String token;
-    private UserRole userRole;
+    private UserRole role;
 
     public LoginResponse(String username, String token, UserRole userRole) {
         this.username = username;
         this.token = token;
-        this.userRole = userRole;
+        this.role = userRole;
     }
 
     public String getUsername() {
@@ -30,11 +29,11 @@ public class LoginResponse {
         this.token = token;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }
