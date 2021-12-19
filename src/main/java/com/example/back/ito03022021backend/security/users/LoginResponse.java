@@ -3,6 +3,7 @@ package com.example.back.ito03022021backend.security.users;
 import com.example.back.ito03022021backend.model.User;
 
 public class LoginResponse {
+
     private String username;
     private String token;
     private UserRole userRole;

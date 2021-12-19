@@ -2,10 +2,8 @@ package com.example.back.ito03022021backend.security.users;
 
 public class RegisterRequest {
 
-
     private String username;
     private String password;
-
 
     public String getUsername() {
         return username;
@@ -23,4 +21,3 @@ public class RegisterRequest {
         this.password = password;
     }
 }
-

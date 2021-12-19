@@ -34,7 +34,6 @@ public class UserService {
         return new BCryptPasswordEncoder();
     }
 
-
     @Autowired
     public UserService(UsersRepository usersRepository, JwtTokenProvider jwtTokenProvider,
                        AuthenticationManager authenticationManager) {
@@ -56,8 +55,6 @@ public class UserService {
             repository.save(user);
             }
         }
-
-
 
     public LoginResponse login(LoginRequest loginRequest) {
         if (!(loginRequest.getUsername()).isBlank() && !loginRequest.getPassword().isBlank()) {
