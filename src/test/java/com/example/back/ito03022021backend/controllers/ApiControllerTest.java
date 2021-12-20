@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -64,6 +63,36 @@ public class ApiControllerTest {
         assertEquals(StockDto.class, stockDto.getClass());
         String symbol = stockDto.getSymbol();
         assertTrue(symbol == null || symbol.equals("GOOG"));
+        System.out.println(stockDto);
+
+    }
+
+    @Test
+    void testDayMonthYear() {
+        MvcResult mvcResult = null;
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                            .get("http://localhost:8080/api/stock/GOOG"))
+                    .andExpect(status().isOk())
+                    .andReturn();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String contentAsString = null;
+        try {
+            assert mvcResult != null;
+            contentAsString = mvcResult.getResponse().getContentAsString();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        StockDto stockDto = null;
+        try {
+            stockDto = objectMapper.readValue(contentAsString, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        assert stockDto != null;
+        assertEquals(StockDto.class, stockDto.getClass());
 
         LocalDate localDate = LocalDate.now();
         int day = localDate.getDayOfMonth();
@@ -71,7 +100,7 @@ public class ApiControllerTest {
         int year = localDate.getYear();
 
         // Test day, month and year.
-        assertTrue(stockDto.getLastDate() == null
+        assertFalse(stockDto.getLastDate() == null
                 || day == Integer.parseInt(stockDto.getLastDate().substring(8))  // Day.
                 || day - 1 == Integer.parseInt(stockDto.getLastDate().substring(8))
                 || day - 2 == Integer.parseInt(stockDto.getLastDate().substring(8)));
@@ -80,5 +109,6 @@ public class ApiControllerTest {
                 || month - 1 == Integer.parseInt(stockDto.getLastDate().substring(5, 7)));
         assertTrue(stockDto.getLastDate() == null
                 || year == Integer.parseInt(stockDto.getLastDate().substring(0, 4)));  // Year.
+
     }
 }
