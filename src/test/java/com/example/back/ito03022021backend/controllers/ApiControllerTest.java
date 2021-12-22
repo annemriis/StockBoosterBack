@@ -63,8 +63,6 @@ public class ApiControllerTest {
         assertEquals(StockDto.class, stockDto.getClass());
         String symbol = stockDto.getSymbol();
         assertTrue(symbol == null || symbol.equals("GOOG"));
-        System.out.println(stockDto);
-
     }
 
     @Test
@@ -109,6 +107,5 @@ public class ApiControllerTest {
                 || month - 1 == Integer.parseInt(stockDto.getLastDate().substring(5, 7)));
         assertTrue(stockDto.getLastDate() == null
                 || year == Integer.parseInt(stockDto.getLastDate().substring(0, 4)));  // Year.
-
     }
 }

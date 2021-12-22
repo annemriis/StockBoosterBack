@@ -22,8 +22,12 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 public class InitialiseStockDatabaseTest {
 
+    private final StockRepository stockRepository;
+
     @Autowired
-    private StockRepository stockRepository;
+    public InitialiseStockDatabaseTest(StockRepository stockRepository) {
+        this.stockRepository = stockRepository;
+    }
 
     @Test
     void testAddStockToDatabase() {

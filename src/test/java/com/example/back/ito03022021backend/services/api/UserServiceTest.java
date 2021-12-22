@@ -64,23 +64,4 @@ public class UserServiceTest {
         loginRequest.setPassword("");
         assertNull(userService.login(loginRequest));
     }
-
-    /**
-    @Test
-    void testAddStockToValidUser() {
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("Mati10");
-        registerRequest.setPassword("Mati12");
-        userService.register(registerRequest);
-
-        userService.addStockToUser("TSLA", "Mati10");
-        userService.addStockToUser("AAPL", "Mati10");
-
-        User user = usersRepository.findUsersByName("Mati10");
-        assertEquals(2, user.getStocks().size());
-        assertEquals("TSLA", user.getStocks().get(0));
-        assertEquals("AAPL", user.getStocks().get(1));
-        assertEquals(List.of("TSLA", "AAPL"), userService.getUsersStocks("Mati10"));
-    }
-    **/
 }
