@@ -1,6 +1,5 @@
 package com.example.back.ito03022021backend.contorllers;
 
-
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.example.back.ito03022021backend.dto.StockDto;
 import com.example.back.ito03022021backend.security.ApplicationRoles;
@@ -48,7 +47,6 @@ public class ApiController {
 
     @GetMapping(path = "/stock/{symbol}")
     public StockDto getStock(@PathVariable String symbol) {
-        // Header needs to be attatched to dto so that front-end can get header
         Optional<StockDto> stockDtoOptional = this.stockSendingService.getStockDaily(symbol);
         return stockDtoOptional.orElseGet(StockDto::new);
     }

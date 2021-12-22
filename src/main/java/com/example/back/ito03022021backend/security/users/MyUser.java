@@ -1,6 +1,5 @@
 package com.example.back.ito03022021backend.security.users;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

@@ -1,6 +1,5 @@
 package com.example.back.ito03022021backend.security;
 
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

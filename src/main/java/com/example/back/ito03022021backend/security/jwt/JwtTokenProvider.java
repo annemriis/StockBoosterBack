@@ -11,9 +11,7 @@ import java.util.HashMap;
 @Service
 public class JwtTokenProvider {
 
-    //add methods to generate token and external config
-
-    private JwtConfig jwtConfig;
+    private final JwtConfig jwtConfig;
 
     @Autowired
     public JwtTokenProvider(JwtConfig jwtConfig) {
@@ -51,7 +49,6 @@ public class JwtTokenProvider {
                 .getExpiration();
         return date.before(new Date());
     }
-
 
     public static void main(String[] args) {
         String jwt = Jwts.builder()

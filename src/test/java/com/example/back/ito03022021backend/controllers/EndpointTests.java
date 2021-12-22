@@ -11,7 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -34,51 +33,18 @@ public class EndpointTests {
                 .andExpect(status().isOk());
     }
 
-    /**
     @Test
-    void apiLoginIsPublic() throws Exception {
+    void apiTimeSeriesIntradayIsPublic() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/login"))
+                        .get("/api/stock/AAPL?time-series=intraday"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void apiRegisterIsPublic() throws Exception {
+    @WithMockUser(username = "test", password = "test", roles = "USER")
+    void boostMoraleEndpointRequiresUserRole() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/register"))
+                        .get("/api/stock/TSLA/boost-morale"))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    void userEndpointRequiresUserToBeLoggedIn() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/user"))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    @WithMockUser(username = "test2", password = "test2", roles = "USER")
-    void userEndpointRequiresUserRole() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/user"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser(username = "test1", password = "test1", roles = "USER")
-    void adminEndpointRequiresAdminRoleUserError() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/admin"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithMockUser(username = "test", password = "test", roles = "ADMIN")
-    void adminEndpointRequiresAdminRole() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/users/admin"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("admin"));
-    }
-    **/
 }
