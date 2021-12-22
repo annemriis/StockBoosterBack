@@ -63,8 +63,6 @@ public class ApiControllerTest {
         assertEquals(StockDto.class, stockDto.getClass());
         String symbol = stockDto.getSymbol();
         assertTrue(symbol == null || symbol.equals("GOOG"));
-        System.out.println(stockDto);
-
     }
 
     @Test
@@ -100,7 +98,7 @@ public class ApiControllerTest {
         int year = localDate.getYear();
 
         // Test day, month and year.
-        assertFalse(stockDto.getLastDate() == null
+        assertTrue(stockDto.getLastDate() == null
                 || day == Integer.parseInt(stockDto.getLastDate().substring(8))  // Day.
                 || day - 1 == Integer.parseInt(stockDto.getLastDate().substring(8))
                 || day - 2 == Integer.parseInt(stockDto.getLastDate().substring(8)));
@@ -109,6 +107,38 @@ public class ApiControllerTest {
                 || month - 1 == Integer.parseInt(stockDto.getLastDate().substring(5, 7)));
         assertTrue(stockDto.getLastDate() == null
                 || year == Integer.parseInt(stockDto.getLastDate().substring(0, 4)));  // Year.
+    }
 
+    @Test
+    void getStockWithInvalidSymbolReturnsAEmptyStockDto() {
+        MvcResult mvcResult = null;
+        try {
+            mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                            .get("http://localhost:8080/api/stock/GOOGFHF"))
+                    .andExpect(status().isOk())
+                    .andReturn();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String contentAsString = null;
+        try {
+            assert mvcResult != null;
+            contentAsString = mvcResult.getResponse().getContentAsString();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        StockDto stockDto = null;
+        try {
+            stockDto = objectMapper.readValue(contentAsString, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        assert stockDto != null;
+        assertEquals(StockDto.class, stockDto.getClass());
+        assertNull(stockDto.getSymbol());
+        assertNull(stockDto.getStockDateInfo());
+        assertNull(stockDto.getLastDate());
+        assertNull(stockDto.getAverageVolumeMonthly());
+        assertNull(stockDto.getDailyPriceChange());
     }
 }

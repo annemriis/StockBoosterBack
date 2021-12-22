@@ -74,7 +74,5 @@ public class DatabaseTests {
 
         // Test if userRole works on admin
         assertEquals(UserRole.ADMIN, usersRepository.findUsersByName("ad").getUserRole());
-
     }
-
 }

@@ -69,14 +69,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private String getUsername(Optional<String> token) {
-
         try {
             return jwtTokenProvider.getUsernameFormToken(token.get());
 
         } catch (RuntimeException e) {
             return null;
         }
-
     }
 
     public Optional<String> getToken(HttpServletRequest request) {
@@ -86,7 +84,4 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         return Optional.of(header.substring(BEARER_.length()));
     }
-
-
-
 }

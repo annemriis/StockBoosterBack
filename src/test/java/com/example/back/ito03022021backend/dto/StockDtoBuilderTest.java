@@ -42,6 +42,5 @@ public class StockDtoBuilderTest {
         assertEquals(384848L, stockDto.getAverageVolumeMonthly());
         assertEquals(1.5, stockDto.getDailyPercentageChange());
         assertEquals(100.00, stockDto.getDailyPriceChange());
-
     }
 }

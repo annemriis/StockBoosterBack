@@ -54,11 +54,6 @@ public class InitialiseStockDatabase {
         // Method does not add all of the symbols from symbols list to the database, because it would take too much time.
         // If the API is in the server then we will add that it will add all symbols to the database.
         // Correct for loop would be (int i = 0; i < symbols.size(); i++).
-
-        // Meetod ei käi hetkel kõiki sümboleid läbi, sest see võtaks liiga palju aega (kui keegi tahab nt oma koodi katsetada)
-        // StockRepository'sse lisatakse hetkel ainult 20 aktsiat, aga nendest katsetamisl peaks piisama.
-        // Õige for loop oleks (int i = 0; i < symbols.size(); i++)
-
         for (int i = 0; i < 5; i++) {
             String symbol = symbols.get(i);
             StockDto stockDto = getStockDto(symbol);

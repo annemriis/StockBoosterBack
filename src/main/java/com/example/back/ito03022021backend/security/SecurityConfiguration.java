@@ -27,15 +27,13 @@ import static com.example.back.ito03022021backend.security.ApplicationRoles.USER
 @EnableGlobalMethodSecurity(securedEnabled = true) // secureEnabled make spring use @Secured
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserConfig userConfig;
-    private JwtRequestFilter jwtRequestFilter;
-    private RestAuthenticationEntryPoint authenticationEntryPoint;
-    private MyUserDetailsService myUserDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
+    private final RestAuthenticationEntryPoint authenticationEntryPoint;
+    private final MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    public SecurityConfiguration(UserConfig userConfig, JwtRequestFilter jwtRequestFilter,
+    public SecurityConfiguration(JwtRequestFilter jwtRequestFilter,
                                  RestAuthenticationEntryPoint authenticationEntryPoint, MyUserDetailsService myUserDetailsService) {
-        this.userConfig = userConfig;
         this.jwtRequestFilter = jwtRequestFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.myUserDetailsService = myUserDetailsService;
@@ -55,8 +53,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/login").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/register").permitAll()
-                //.antMatchers("/user").hasAnyRole("USER")
-                //.antMatchers("/admin").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -81,7 +77,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().antMatchers(
-
                 "/api/**",
                 "/configuration/ui",
                 "/swagger-resources/**",
