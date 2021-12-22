@@ -51,8 +51,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/skateboards/**").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/login").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/register").permitAll()
+                .antMatchers(HttpMethod.POST ,"/skateboards/add").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -84,7 +86,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html",
                 "/swagger-ui/**",
                 "/webjars/**",
-                "/users/**"
+                "/users/**",
+                "/skateboards/**"
         );
     }
 
