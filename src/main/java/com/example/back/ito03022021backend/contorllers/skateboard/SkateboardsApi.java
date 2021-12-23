@@ -55,10 +55,10 @@ public class SkateboardsApi {
     //todo C "page for each skateboard where I can see it's info"
     // create a method to query a single skateboard
     @GetMapping(path = "/{id}")
-    public Skateboard getSkateboard(@PathVariable(value = "id") String id) {
-        Long ID = Long.parseLong(id.substring(1, 1));
+    public Skateboard getSkateboard(@PathVariable String id) {
+        System.out.println(id);
+        Long ID = Long.parseLong(id);
         if (skateboards.containsKey(ID)) {
-            System.out.println(skateboards.get(ID));
             return skateboards.get(ID);
         } return null;
     }
@@ -66,7 +66,7 @@ public class SkateboardsApi {
     //todo D "button to add a new skateboard"
     // create a method to save a new skateboard
 
-    // Postman body
+    // Postman body sample
     // {
     //    "id": 1,
     //    "name": "Peeter",
@@ -77,8 +77,9 @@ public class SkateboardsApi {
     //}
     @PostMapping(value = "/add")
     public ResponseEntity<Void> saveSkateboard(@RequestBody Skateboard skateboard) {
+        skateboard.setCondition(skateboard.getCondition().toUpperCase(Locale.ROOT));
+        skateboard.setCondition(skateboard.getInStock().toUpperCase(Locale.ROOT));
         this.skateboards.put(skateboard.getId(), skateboard);
-        System.out.println(this.skateboards);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -92,9 +93,9 @@ public class SkateboardsApi {
             Skateboard skateboard = skateboards.get(ID);
             skateboard.setName(skateboardDetails.getName());
             skateboard.setPrice(skateboardDetails.getPrice());
-            skateboard.setCondition(skateboardDetails.getCondition());
+            skateboard.setCondition(skateboardDetails.getCondition().toUpperCase(Locale.ROOT));
             skateboard.setDesigner(skateboardDetails.getDesigner());
-            skateboard.setInStock(skateboardDetails.getInStock());
+            skateboard.setInStock(skateboardDetails.getInStock().toUpperCase(Locale.ROOT));
             System.out.println(skateboards);
             return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }
@@ -121,12 +122,14 @@ public class SkateboardsApi {
     // Specify media types
     @GetMapping(path = "/available")
     public List<Skateboard> getAvailableSkateboards() {
-        return getAllSkateboards().stream().filter(a -> a.getInStock().equals("True")).collect(Collectors.toList());
+        return getAllSkateboards().stream().filter(a -> a.getInStock().equals("TRUE")).collect(Collectors.toList());
     }
 
-    @GetMapping(path = "/condition/{condition}")
+    @GetMapping(path = "?condition={condition}")
     public List<Skateboard> getAvailableSkateboards(@PathVariable String condition) {
-        return getAllSkateboards().stream().filter(a -> a.getCondition().equals(condition)).collect(Collectors.toList());
+        condition = condition.toUpperCase(Locale.ROOT);
+        String finalCondition = condition;
+        return getAllSkateboards().stream().filter(a -> a.getCondition().equals(finalCondition)).collect(Collectors.toList());
     }
 
 
@@ -135,6 +138,27 @@ public class SkateboardsApi {
     // I modify correct method to provide sorting by price and name
     // J modify correct method to support sorting in ascending and descending order
     // in addition write some examples for how you will sort using your api (provide urls)
+
+    /**
+     * @param by what category do you want the thing to be sorted by, like name or price
+     * @param order asc or desc order has to be specified
+     * @return
+     */
+    @GetMapping(path = "?sort={by},{order}")
+    public List<Skateboard> getAvailableSkateboardsSorted(@PathVariable String by, @PathVariable String order) {
+        Comparator<Skateboard> comparator;
+        by = by.toUpperCase(Locale.ROOT);
+        if (by.equals("NAME")) {
+            comparator = Comparator.comparing(Skateboard::getName);
+        } else {
+            comparator = Comparator.comparing(Skateboard::getPrice);
+        }
+        order = order.toUpperCase(Locale.ROOT);
+        if (order.equals("DESC")) {
+            comparator = comparator.reversed();
+        }
+        return getAllSkateboards().stream().sorted(comparator).collect(Collectors.toList());
+    }
 
 
 
