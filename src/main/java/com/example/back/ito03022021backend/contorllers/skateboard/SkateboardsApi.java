@@ -66,19 +66,45 @@ public class SkateboardsApi {
     //todo D "button to add a new skateboard"
     // create a method to save a new skateboard
 
-    // Postman body sample
-    // {
-    //    "id": 1,
-    //    "name": "Peeter",
-    //    "inStock": "True",
-    //    "condition": "Good",
-    //    "price": 15.0,
-    //    "designer": "Peeter"
-    //}
+    /**
+     * Adding bodys
+     * {
+     *         "id": 1,
+     *         "name": "A",
+     *         "inStock": "TRUE",
+     *         "condition": "OLD",
+     *         "price": "25",
+     *         "designer": "Peeter"
+     *     }
+     *     {
+     *         "id": 3,
+     *         "name": "Peeter3",
+     *         "inStock": "TRUE",
+     *         "condition": "OLD",
+     *         "price": "35",
+     *         "designer": "Peeter"
+     *     }
+     *     {
+     *         "id": 2,
+     *         "name": "Peeter2",
+     *         "inStock": "TRUE",
+     *         "condition": "NEW",
+     *         "price": "15",
+     *         "designer": "Peeter"
+     *     }
+     *      {
+     *         "id": 4,
+     *         "name": "Peeter5",
+     *         "inStock": "FALSE",
+     *         "condition": "NEW",
+     *         "price": "5",
+     *         "designer": "Peeter"
+     *     }
+     */
     @PostMapping(value = "/add")
     public ResponseEntity<Void> saveSkateboard(@RequestBody Skateboard skateboard) {
         skateboard.setCondition(skateboard.getCondition().toUpperCase(Locale.ROOT));
-        skateboard.setCondition(skateboard.getInStock().toUpperCase(Locale.ROOT));
+        skateboard.setInStock(skateboard.getInStock().toUpperCase(Locale.ROOT));
         this.skateboards.put(skateboard.getId(), skateboard);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -125,11 +151,14 @@ public class SkateboardsApi {
         return getAllSkateboards().stream().filter(a -> a.getInStock().equals("TRUE")).collect(Collectors.toList());
     }
 
-    @GetMapping(path = "?condition={condition}")
+    @GetMapping(path = "/condition/{condition}")
     public List<Skateboard> getAvailableSkateboards(@PathVariable String condition) {
         condition = condition.toUpperCase(Locale.ROOT);
         String finalCondition = condition;
-        return getAllSkateboards().stream().filter(a -> a.getCondition().equals(finalCondition)).collect(Collectors.toList());
+        System.out.println(finalCondition);
+        List<Skateboard> s = skateboards.values().stream().filter(a -> a.getCondition().equals(finalCondition)).collect(Collectors.toList());
+        System.out.println(s);
+        return s;
     }
 
 
@@ -142,22 +171,28 @@ public class SkateboardsApi {
     /**
      * @param by what category do you want the thing to be sorted by, like name or price
      * @param order asc or desc order has to be specified
-     * @return
+     *
+     *
+     * http://localhost:8080/skateboards/sort/price/asc
+     * http://localhost:8080/skateboards/sort/name/desc
      */
-    @GetMapping(path = "?sort={by},{order}")
+    @GetMapping(path = "/sort/{by}/{order}")
     public List<Skateboard> getAvailableSkateboardsSorted(@PathVariable String by, @PathVariable String order) {
         Comparator<Skateboard> comparator;
         by = by.toUpperCase(Locale.ROOT);
+        System.out.println();
         if (by.equals("NAME")) {
             comparator = Comparator.comparing(Skateboard::getName);
         } else {
-            comparator = Comparator.comparing(Skateboard::getPrice);
+            comparator = Comparator.comparing(i -> Integer.parseInt(i.getPrice()));
         }
         order = order.toUpperCase(Locale.ROOT);
         if (order.equals("DESC")) {
             comparator = comparator.reversed();
         }
-        return getAllSkateboards().stream().sorted(comparator).collect(Collectors.toList());
+        List<Skateboard> s = skateboards.values().stream().sorted(comparator).collect(Collectors.toList());
+        System.out.println(s);
+        return s;
     }
 
 
