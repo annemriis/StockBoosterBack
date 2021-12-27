@@ -92,7 +92,7 @@ public class HatsApi {
      */
     //todo D "And then there are buttons for saving [..] when I have new hats [..]"
     // create a method to save a new hat
-    @PostMapping(value = "/save")
+    @PostMapping(value = "")
     public ResponseEntity<Void> saveHat(@RequestBody Hat hat) {
         hat.setColour(hat.getColour().toLowerCase(Locale.ROOT));
         hat.setStyle(hat.getStyle().toLowerCase(Locale.ROOT));
@@ -102,7 +102,7 @@ public class HatsApi {
 
     //todo E "And then there are buttons for [..] updating when [..] some info was wrong"
     // create a method to update a hat
-    @PutMapping(value = "/{id}/update")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateHat(@PathVariable String id, @RequestBody Hat updatedInfo) {
         Long ID = Long.parseLong(id);
         if (hats.containsKey(ID)) {
@@ -117,10 +117,9 @@ public class HatsApi {
 
     //todo F "Oh, and some way to remove hats."
     // create a method to delete a hat
-    @DeleteMapping(value = "/{id}/remove")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteHat(@PathVariable String id) {
-        Long ID = Long.parseLong(id);
-        this.hats.remove(ID);
+        this.hats.remove(Long.parseLong(id));
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
