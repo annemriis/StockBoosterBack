@@ -53,10 +53,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/skateboards/**").permitAll()
                 .antMatchers("/hats/**").permitAll()
+                .antMatchers("/boardgames/**").permitAll()
+                .antMatchers("/coins/**").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/login").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/register").permitAll()
                 .antMatchers(HttpMethod.POST ,"/skateboards/add").permitAll()
                 .antMatchers(HttpMethod.POST ,"/hats/save").permitAll()
+                .antMatchers(HttpMethod.POST, "/boardgames").permitAll()
+                .antMatchers(HttpMethod.POST ,"/coins/add").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -90,7 +94,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/users/**",
                 "/skateboards/**",
-                "/hats/**"
+                "/hats/**",
+                "/boardgames/**",
+                "/coins/**"
         );
     }
 
