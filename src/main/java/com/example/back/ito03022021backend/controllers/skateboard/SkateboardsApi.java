@@ -45,12 +45,8 @@ public class SkateboardsApi {
 
     //todo A first things first, please add necessary annotations to this class
 
-    //todo B "an overview of the skateboards we sell"
-    // create a method to query skateboards (plural)
-    @GetMapping(path = "")
-    public List<Skateboard> getAllSkateboards() {
-        return new ArrayList<>(this.skateboards.values());
-    }
+
+
 
     //todo C "page for each skateboard where I can see it's info"
     // create a method to query a single skateboard
@@ -68,7 +64,7 @@ public class SkateboardsApi {
 
     /**
      * Adding bodys
-     * {
+     *      {
      *         "id": 1,
      *         "name": "A",
      *         "inStock": "TRUE",
@@ -88,7 +84,7 @@ public class SkateboardsApi {
      *         "id": 2,
      *         "name": "Peeter2",
      *         "inStock": "TRUE",
-     *         "condition": "NEW",
+     *         "condition": "BROKEN",
      *         "price": "15",
      *         "designer": "Peeter"
      *     }
@@ -144,57 +140,50 @@ public class SkateboardsApi {
     // G modify correct method to filter whether the skateboard is in stock or out of stock
     // H modify correct method to filter by condition (new, used, broken)
     // make sure existing functionality doesn't break
-
-    // Specify media types
-    @GetMapping(path = "/available")
-    public List<Skateboard> getAvailableSkateboards() {
-        return getAllSkateboards().stream().filter(a -> a.getInStock().equals("TRUE")).collect(Collectors.toList());
-    }
-
-    @GetMapping(path = "/condition/{condition}")
-    public List<Skateboard> getAvailableSkateboards(@PathVariable String condition) {
-        condition = condition.toUpperCase(Locale.ROOT);
-        String finalCondition = condition;
-        System.out.println(finalCondition);
-        List<Skateboard> s = skateboards.values().stream().filter(a -> a.getCondition().equals(finalCondition)).collect(Collectors.toList());
-        System.out.println(s);
-        return s;
-    }
-
-
-
     //todo I-J "I want to order by the price or by the name alphabetically"
     // I modify correct method to provide sorting by price and name
     // J modify correct method to support sorting in ascending and descending order
     // in addition write some examples for how you will sort using your api (provide urls)
-
     /**
-     * @param by what category do you want the thing to be sorted by, like name or price
-     * @param order asc or desc order has to be specified
+     *    http://localhost:8080/skateboards?instock=true
+     *    http://localhost:8080/skateboards?instock=false
+     *    http://localhost:8080/skateboards?condition=used
+     *    http://localhost:8080/skateboards?condition=new
+     *    http://localhost:8080/skateboards?condition=broken
      *
-     *
-     * http://localhost:8080/skateboards/sort/price/asc
-     * http://localhost:8080/skateboards/sort/name/desc
-     */
-    @GetMapping(path = "/sort/{by}/{order}")
-    public List<Skateboard> getAvailableSkateboardsSorted(@PathVariable String by, @PathVariable String order) {
-        Comparator<Skateboard> comparator;
-        by = by.toUpperCase(Locale.ROOT);
-        System.out.println();
-        if (by.equals("NAME")) {
-            comparator = Comparator.comparing(Skateboard::getName);
-        } else {
-            comparator = Comparator.comparing(i -> Integer.parseInt(i.getPrice()));
+     *    http://localhost:8080/skateboards?sort=name
+     *    http://localhost:8080/skateboards?sort=price
+     *    http://localhost:8080/skateboards?sort=name&order=desc
+     *    http://localhost:8080/skateboards?sort=price&order=desc
+     * **/
+    @GetMapping(path = "")
+    public List<Skateboard> getSkateboards(@RequestParam Optional<String> instock, @RequestParam Optional<String> condition,
+                                           @RequestParam Optional<String> sort, @RequestParam Optional<String> order) {
+        List<Skateboard> skateboards = new ArrayList<>(this.skateboards.values());
+        if (instock.isPresent()) {
+            String availableStatus = instock.get().toUpperCase(Locale.ROOT);
+            skateboards = skateboards.stream().filter(a -> a.getInStock().equals(availableStatus)).collect(Collectors.toList());
+        } if (condition.isPresent()) {
+            String isNew = condition.get().toUpperCase(Locale.ROOT);
+            System.out.println(isNew);
+            skateboards = skateboards.stream().filter(a -> a.getCondition().equals(isNew)).collect(Collectors.toList());
         }
-        order = order.toUpperCase(Locale.ROOT);
-        if (order.equals("DESC")) {
-            comparator = comparator.reversed();
+        if (sort.isPresent()) {
+            Comparator<Skateboard> comparator = Comparator.comparing(Skateboard::getName);
+            if (sort.get().toLowerCase(Locale.ROOT).equals("price")) {
+                comparator = Comparator.comparing(i -> Long.parseLong(i.getPrice()));
+            } else if (sort.get().toLowerCase(Locale.ROOT).equals("name")) {
+                comparator = Comparator.comparing(Skateboard::getName);
+            }
+            if (order.isPresent()) {
+                if (order.get().toLowerCase(Locale.ROOT).equals("desc")) {
+                    comparator = comparator.reversed();
+                }
+            }
+            return skateboards.stream().sorted(comparator).collect(Collectors.toList());
         }
-        List<Skateboard> s = skateboards.values().stream().sorted(comparator).collect(Collectors.toList());
-        System.out.println(s);
-        return s;
+        return skateboards;
     }
-
 
 
 
