@@ -1,4 +1,4 @@
-package com.example.back.ito03022021backend.contorllers.skateboard;
+package com.example.back.ito03022021backend.controllers.skateboard;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

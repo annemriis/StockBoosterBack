@@ -52,9 +52,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/skateboards/**").permitAll()
+                .antMatchers("/hats/**").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/login").permitAll()
                 .antMatchers(HttpMethod.POST ,"/users/register").permitAll()
                 .antMatchers(HttpMethod.POST ,"/skateboards/add").permitAll()
+                .antMatchers(HttpMethod.POST ,"/hats/save").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -87,7 +89,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/swagger-ui/**",
                 "/webjars/**",
                 "/users/**",
-                "/skateboards/**"
+                "/skateboards/**",
+                "/hats/**"
         );
     }
 

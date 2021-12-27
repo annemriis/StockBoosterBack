@@ -1,4 +1,4 @@
-package com.example.back.ito03022021backend.contorllers;
+package com.example.back.ito03022021backend.controllers;
 
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.example.back.ito03022021backend.dto.StockDto;
