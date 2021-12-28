@@ -126,56 +126,50 @@ public class CoinsApi {
     // G modify correct method to filter by period (ancient times, 18th century, 19th century)
     // H modify correct method to filter by region (americas, europe)
     // make sure existing functionality doesn't break
-    @GetMapping(path = "/period/{period}")
-    public List<Coin> getAvailableCoinsPer(@PathVariable String period) {
-        period = period.toUpperCase(Locale.ROOT);
-        String finalPeriod = period;
-        System.out.println(finalPeriod);
-        List<Coin> c = coins.values().stream().filter(a -> a.getRegion().equals(finalPeriod)).collect(Collectors.toList());
-        System.out.println(c);
-        return c;
-    }
-
-    @GetMapping(path = "/region/{region}")
-    public List<Coin> getAvailableCoinsReg(@PathVariable String region) {
-        region = region.toUpperCase(Locale.ROOT);
-        String finalRegion = region;
-        System.out.println(finalRegion);
-        List<Coin> c = coins.values().stream().filter(a -> a.getRegion().equals(finalRegion)).collect(Collectors.toList());
-        System.out.println(c);
-        return c;
-    }
-
     //todo I-J "And sorting, by value and date added. By default it can sort with latest coins first."
     // I modify correct method to provide sorting by value and date added
     // J modify correct method to support sorting in ascending and descending order
     // in addition write some examples for how you will sort using your api (provide urls)
 
     /**
-     * @param by what category do you want the thing to be sorted by, like name or price
-     * @param order asc or desc order has to be specified
+     *    http://localhost:8080/coins?period=ancient times
+     *    http://localhost:8080/coins?period=18th century
+     *    http://localhost:8080/coins?period=19th century
+     *    http://localhost:8080/coins?region=americas
+     *    http://localhost:8080/coins?region=europe
      *
-     *
-     * http://localhost:8080/coins/sort/value/asc
-     * http://localhost:8080/coins/sort/dateAdded/desc
-     */
-    @GetMapping(path = "/sort/{by}/{order}")
-    public List<Coin> getAvailableCoinsSorted(@PathVariable String by, @PathVariable String order) {
-        Comparator<Coin> comparator;
-        by = by.toUpperCase(Locale.ROOT);
-        System.out.println();
-        if (by.equals("DATEADDED")) {
-            comparator = Comparator.comparing(Coin::getDateAdded);
-        } else {
-            comparator = Comparator.comparing(i -> Integer.parseInt(i.getValue()));
+     *    http://localhost:8080/coins?sort=value
+     *    http://localhost:8080/coins?sort=dateadded
+     *    http://localhost:8080/coins?sort=value&order=desc
+     *    http://localhost:8080/coins?sort=dateadded&order=desc
+     * **/
+    @GetMapping(path = "")
+    public List<Coin> getCoins(@RequestParam Optional<String> period, @RequestParam Optional<String> region,
+                                           @RequestParam Optional<String> sort, @RequestParam Optional<String> order) {
+        List<Coin> coins = new ArrayList<>(this.coins.values());
+        if (period.isPresent()) {
+            String periodString = period.get().toUpperCase(Locale.ROOT);
+            coins = coins.stream().filter(a -> a.getPeriod().equals(periodString)).collect(Collectors.toList());
+        } if (region.isPresent()) {
+            String regionString = region.get().toUpperCase(Locale.ROOT);
+            System.out.println(regionString);
+            coins = coins.stream().filter(a -> a.getRegion().equals(regionString)).collect(Collectors.toList());
         }
-        order = order.toUpperCase(Locale.ROOT);
-        if (order.equals("DESC")) {
-            comparator = comparator.reversed();
+        if (sort.isPresent()) {
+            Comparator<Coin> comparator = Comparator.comparing(Coin::getDateAdded);
+            if (sort.get().toLowerCase(Locale.ROOT).equals("value")) {
+                comparator = Comparator.comparing(i -> Long.parseLong(i.getValue()));
+            } else if (sort.get().toLowerCase(Locale.ROOT).equals("dateadded")) {
+                comparator = Comparator.comparing(Coin::getDateAdded);
+            }
+            if (order.isPresent()) {
+                if (order.get().toLowerCase(Locale.ROOT).equals("desc")) {
+                    comparator = comparator.reversed();
+                }
+            }
+            return coins.stream().sorted(comparator).collect(Collectors.toList());
         }
-        List<Coin> c = coins.values().stream().sorted(comparator).collect(Collectors.toList());
-        System.out.println(c);
-        return c;
+        return coins;
     }
 
 }
