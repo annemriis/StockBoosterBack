@@ -43,10 +43,6 @@ public class CoinsApi {
 
     //todo B "I need to have like a list view with many coins"
     // create a method to query coins (plural)
-    @GetMapping(path = "")
-    public List<Coin> getCoins() {
-        return new ArrayList<>(this.coins.values());
-    }
 
     //todo C "If I click on a single coin, I get to a detail page."
     // create a method to query a single coin
