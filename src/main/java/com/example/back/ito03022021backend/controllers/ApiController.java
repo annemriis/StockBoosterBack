@@ -45,7 +45,7 @@ public class ApiController {
         return this.stockService.getStockDaily(symbol);
     }
 
-    @GetMapping(path = "/stock/{symbol}")
+    @GetMapping(path = {"/stock/{symbol}", "/stock2/{symbol}"})
     public StockDto getStock(@PathVariable String symbol) {
         Optional<StockDto> stockDtoOptional = this.stockSendingService.getStockDaily(symbol);
         return stockDtoOptional.orElseGet(StockDto::new);
